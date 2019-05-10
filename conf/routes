@@ -1,0 +1,6 @@
+#Index
+GET     /                             controllers.OkController.ok()
+
+#Assets
+GET     /assets/*file                 controllers.Assets.versioned(file)
+      
