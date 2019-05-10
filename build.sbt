@@ -8,6 +8,7 @@ lazy val `world-management` = (project in file("."))
   .enablePlugins(PlayScala)
   .configs(IntegrationTest)
   .settings(
+    PlayKeys.playDefaultPort := 9900,
     Defaults.itSettings,
     libraryDependencies ++= Seq(
       jdbc,
