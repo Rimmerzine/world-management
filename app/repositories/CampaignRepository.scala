@@ -19,4 +19,8 @@ trait CampaignRepository extends BaseRepository {
     find[Campaign](selector)
   }
 
+  def insertCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = {
+    insert(campaign)
+  }
+
 }

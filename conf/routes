@@ -1,6 +1,6 @@
 # Campaign Routes
-GET     /campaigns                      controllers.CampaignController.campaigns()
+GET     /campaigns/retrieve             controllers.CampaignController.campaigns()
+POST    /campaigns/create               controllers.CampaignController.create()
 
 #Assets
 GET     /assets/*file                   controllers.Assets.versioned(file)
-      
