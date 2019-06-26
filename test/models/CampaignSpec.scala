@@ -16,8 +16,12 @@ class CampaignSpec extends PlaySpec with TestConstants {
       }
     }
     "fail to read from json" when {
+      "the id is missing from json" in {
+        val json: JsObject = Json.obj("name" -> testCampaignName, "description" -> testCampaignDescription)
+        Json.fromJson[Campaign](json) mustBe JsError(JsPath \ "id", "error.path.missing")
+      }
       "the name is missing from json" in {
-        val json: JsObject = Json.obj("description" -> testCampaignDescription)
+        val json: JsObject = Json.obj("id" -> testCampaignId, "description" -> testCampaignDescription)
         Json.fromJson[Campaign](json) mustBe JsError(JsPath \ "name", "error.path.missing")
       }
     }
