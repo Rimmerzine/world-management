@@ -1,6 +1,6 @@
-#Index
-GET     /                             controllers.OkController.ok()
+# Campaign Routes
+GET     /campaigns                      controllers.CampaignController.campaigns()
 
 #Assets
-GET     /assets/*file                 controllers.Assets.versioned(file)
+GET     /assets/*file                   controllers.Assets.versioned(file)
       
