@@ -22,8 +22,8 @@ trait CampaignConstants {
   val testCampaignDescription: String = "testCampaignDescription"
 
   val testCampaign: Campaign = Campaign(testCampaignName, Some(testCampaignDescription))
-  val testCampaignMinimal: Campaign = Campaign(testCampaignName, None
-  )
+  val testCampaignMinimal: Campaign = Campaign(testCampaignName, None)
+
   def testCampaigns(count: Int): List[Campaign] = {
     for {
       num <- (0 to count).toList

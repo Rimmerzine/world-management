@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import models.Campaign
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.CampaignService
@@ -19,6 +20,10 @@ trait CampaignController extends BaseController {
       case campaigns@_ :: _ => Ok(Json.toJson(campaigns))
       case Nil => NoContent
     }
+  }
+
+  val create: Action[Campaign] = Action.async(parse.json[Campaign]) { implicit request =>
+    campaignService.create(request.body).map(campaign => Created(Json.toJson(campaign)))
   }
 
 }
