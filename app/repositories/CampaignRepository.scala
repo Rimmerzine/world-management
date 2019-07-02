@@ -23,4 +23,9 @@ trait CampaignRepository extends BaseRepository {
     insert(campaign)
   }
 
+  def updateCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
+    val selector: JsObject = Json.obj("id" -> campaign.id)
+    findAndUpdate[Campaign](selector, Json.toJsObject(campaign))
+  }
+
 }

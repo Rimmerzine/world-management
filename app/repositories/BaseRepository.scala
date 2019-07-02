@@ -2,10 +2,10 @@ package repositories
 
 import play.api.libs.json.{JsObject, Json}
 import play.modules.reactivemongo.ReactiveMongoApi
-import reactivemongo.api.commands.WriteResult
 import reactivemongo.api.{Cursor, ReadPreference}
 import reactivemongo.play.json.ImplicitBSONHandlers._
 import reactivemongo.play.json.JSONSerializationPack.{Reader, Writer}
+import reactivemongo.play.json.collection.JSONBatchCommands.FindAndModifyCommand.FindAndModifyResult
 import reactivemongo.play.json.collection.JSONCollection
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,6 +32,11 @@ trait BaseRepository {
 
   protected def insert[A](data: A)(implicit writes: Writer[A], ec: ExecutionContext): Future[A] = {
     collection.flatMap(_.insert.one(data)).map(_ => data)
+  }
+
+  protected def findAndUpdate[A](selector: JsObject, update: JsObject)
+                                (implicit writes: Writer[A], reader: Reader[A], ec: ExecutionContext): Future[Option[A]] = {
+    collection.flatMap[FindAndModifyResult](_.findAndUpdate(selector, update, fetchNewObject = true)).map(_.result[A])
   }
 
 }

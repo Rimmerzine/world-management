@@ -50,4 +50,19 @@ class CampaignRepositorySpec extends RepositorySpec with TestConstants {
     }
   }
 
+  "updateCampaign" must {
+    "update the campaign on the database" in new Setup(testCampaign) {
+      val updatedCampaign: Campaign = testCampaign.copy(name = "testUpdatedName")
+      await(repository.updateCampaign(updatedCampaign)) mustBe Some(updatedCampaign)
+    }
+    "return none and not update any campaign" when {
+      "there are no campaigns" in new Setup {
+        await(repository.updateCampaign(testCampaign)) mustBe None
+      }
+      "the campaign to update is not in the database" in new Setup(testCampaign) {
+        await(repository.updateCampaign(testCampaignMinimal)) mustBe None
+      }
+    }
+  }
+
 }
