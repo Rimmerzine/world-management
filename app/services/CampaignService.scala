@@ -12,8 +12,10 @@ trait CampaignService {
 
   protected val campaignRepository: CampaignRepository
 
-  def campaigns(implicit ec: ExecutionContext): Future[List[Campaign]] = campaignRepository.retrieveCampaigns
+  def retrieveCampaigns(implicit ec: ExecutionContext): Future[List[Campaign]] = campaignRepository.retrieveCampaigns
 
-  def create(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = campaignRepository.insertCampaign(campaign)
+  def createCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = campaignRepository.insertCampaign(campaign)
+
+  def updateCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Option[Campaign]] = campaignRepository.updateCampaign(campaign)
 
 }

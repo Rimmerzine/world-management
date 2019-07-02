@@ -1,9 +1,7 @@
 package utils
 
-import java.util.UUID
-
 import models.Campaign
-import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json.{JsObject, Json, OFormat}
 
 trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants {
 
@@ -13,8 +11,19 @@ trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants {
 
 trait BaseRepositoryTestConstants {
 
-  val document: JsObject = Json.obj("testKey" -> "testValue")
-  val document2: JsObject = Json.obj("testKey" -> "testValue2")
+  case class Tester(one: String, two: Option[Int], three: Boolean = false)
+
+  object Tester {
+    implicit val format: OFormat[Tester] = Json.format[Tester]
+  }
+
+  val testerFull: Tester = Tester("testOne", Some(2), three = true)
+  val testerFull2: Tester = Tester("testOne", Some(2))
+  val testerMin: Tester = Tester("testOne", None)
+
+  val testerFullJson: JsObject = Json.obj("one" -> "testOne", "two" -> 2, "three" -> true)
+  val testerFull2Json: JsObject = Json.obj("one" -> "testOne", "two" -> 2, "three" -> false)
+  val testerMinJson: JsObject = Json.obj("one" -> "testOne", "three" -> false)
 
 }
 
