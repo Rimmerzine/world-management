@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 import models.Campaign
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.CampaignService
 
@@ -28,6 +28,14 @@ trait CampaignController extends BaseController {
 
   val update: Action[Campaign] = Action.async(parse.json[Campaign]) { implicit request =>
     campaignService.updateCampaign(request.body).map {
+      case Some(campaign) => Ok(Json.toJson(campaign))
+      case None => NotFound
+    }
+  }
+
+  val remove: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    val campaignId: String = (request.body \ "id").as[String]
+    campaignService.removeCampaign(campaignId).map {
       case Some(campaign) => Ok(Json.toJson(campaign))
       case None => NotFound
     }

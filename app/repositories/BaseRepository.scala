@@ -39,4 +39,8 @@ trait BaseRepository {
     collection.flatMap[FindAndModifyResult](_.findAndUpdate(selector, update, fetchNewObject = true)).map(_.result[A])
   }
 
+  protected def findAndRemove[A](selector: JsObject)(implicit writes: Writer[A], reader: Reader[A], ec: ExecutionContext): Future[Option[A]] = {
+    collection.flatMap[FindAndModifyResult](_.findAndRemove(selector)).map(_.result[A])
+  }
+
 }

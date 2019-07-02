@@ -20,7 +20,7 @@ class CampaignServiceSpec extends UnitSpec with TestConstants {
     }
   }
 
-  "campaigns" must {
+  "retrieveCampaigns" must {
     "return back the campaigns from the repository" in new Setup {
       val campaignsList: List[Campaign] = testCampaigns(5)
       when(mockCampaignRepository.retrieveCampaigns(any())) thenReturn Future.successful(campaignsList)
@@ -28,17 +28,24 @@ class CampaignServiceSpec extends UnitSpec with TestConstants {
     }
   }
 
-  "create" must {
+  "createCampaign" must {
     "return what is returned from the repository" in new Setup {
       when(mockCampaignRepository.insertCampaign(matches(testCampaign))(any())) thenReturn Future.successful(testCampaign)
       await(service.createCampaign(testCampaign)) mustBe testCampaign
     }
   }
 
-  "update" must {
+  "updateCampaign" must {
     "return what is returned from the repository" in new Setup {
       when(mockCampaignRepository.updateCampaign(matches(testCampaign))(any())) thenReturn Future.successful(Some(testCampaign))
       await(service.updateCampaign(testCampaign)) mustBe Some(testCampaign)
+    }
+  }
+
+  "removeCampaign" must {
+    "return what is returned from the repository" in new Setup {
+      when(mockCampaignRepository.removeCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(Some(testCampaign))
+      await(service.removeCampaign(testCampaign.id)) mustBe Some(testCampaign)
     }
   }
 

@@ -18,4 +18,6 @@ trait CampaignService {
 
   def updateCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Option[Campaign]] = campaignRepository.updateCampaign(campaign)
 
+  def removeCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = campaignRepository.removeCampaign(campaignId)
+
 }

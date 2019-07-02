@@ -65,4 +65,20 @@ class CampaignRepositorySpec extends RepositorySpec with TestConstants {
     }
   }
 
+  "removeCampaign" must {
+    "remove the campaign from the database" when {
+      "it exists in the database" in new Setup(testCampaign) {
+        await(repository.removeCampaign(testCampaign.id)) mustBe Some(testCampaign)
+      }
+    }
+    "return none" when {
+      "there are no records in the database" in new Setup {
+        await(repository.removeCampaign(testCampaign.id)) mustBe None
+      }
+      "the campaign doesn't exist in the database" in new Setup(testCampaign) {
+        await(repository.removeCampaign(testCampaignMinimal.id))
+      }
+    }
+  }
+
 }
