@@ -2,13 +2,13 @@ package controllers
 
 import helpers.UnitSpec
 import models.Campaign
-import play.api.mvc.{AnyContent, AnyContentAsJson, ControllerComponents, Request, Result}
+import play.api.mvc.{AnyContent, AnyContentAsEmpty, AnyContentAsJson, ControllerComponents, Request, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.CampaignService
 import utils.TestConstants
 import org.mockito.Mockito.when
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import org.mockito.ArgumentMatchers.{any, eq => matches}
 
 import scala.concurrent.Future
@@ -24,8 +24,8 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
     }
   }
 
-  val request: Request[AnyContent] = FakeRequest()
-  val requestWithCampaignJson: Request[Campaign] = FakeRequest().withBody[Campaign](testCampaign)
+  val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  val requestWithCampaignJson: FakeRequest[Campaign] = FakeRequest().withBody[Campaign](testCampaign)
 
   "campaigns" must {
     s"return $OK" when {
@@ -81,6 +81,26 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
         when(mockCampaignService.updateCampaign(matches(testCampaign))(any())) thenReturn Future.successful(None)
 
         val result: Future[Result] = controller.update(requestWithCampaignJson)
+        status(result) mustBe NOT_FOUND
+      }
+    }
+  }
+
+  "remove" must {
+    s"return $OK with a json body of the removed campaign" in new Setup {
+      when(mockCampaignService.removeCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(Some(testCampaign))
+
+      val result: Future[Result] = controller.remove(request.withBody(Json.obj("id" -> testCampaign.id)))
+      status(result) mustBe OK
+      contentType(result) mustBe Some("application/json")
+      contentAsJson(result) mustBe testCampaignJson
+    }
+
+    s"return $NOT_FOUND" when {
+      "no campaign is returned back from the service" in new Setup {
+        when(mockCampaignService.removeCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(None)
+
+        val result: Future[Result] = controller.remove(request.withBody(Json.obj("id" -> testCampaign.id)))
         status(result) mustBe NOT_FOUND
       }
     }

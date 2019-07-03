@@ -83,10 +83,27 @@ class BaseRepositorySpec extends RepositorySpec with TestConstants {
     "return None and not update any documents" when {
       "there are no documents in the database" in new Setup {
         await(findAndUpdate[Tester](testerFullJson, testerMinJson)) mustBe None
-        findAll[Tester] mustBe List.empty[Tester]
       }
       "there are no documents matching the selector" in new Setup(testerFull) {
         await(findAndUpdate[Tester](testerFull2Json, testerFullJson)) mustBe None
+        findAll[Tester] mustBe List(testerFull)
+      }
+    }
+  }
+
+  "findAndRemove" must {
+    "remove a document from the database and return the removed document" when {
+      "the document is in the database" in new Setup(testerFull) {
+        await(findAndRemove[Tester](testerFullJson)) mustBe Some(testerFull)
+        findAll[Tester] mustBe List.empty[Tester]
+      }
+    }
+    "return None and not remove any documents" when {
+      "there are no documents in the database" in new Setup {
+        await(findAndRemove[Tester](testerFullJson)) mustBe None
+      }
+      "there are no documents matching the selector" in new Setup(testerFull) {
+        await(findAndRemove[Tester](testerFull2Json)) mustBe None
         findAll[Tester] mustBe List(testerFull)
       }
     }

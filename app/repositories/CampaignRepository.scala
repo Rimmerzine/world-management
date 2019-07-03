@@ -28,4 +28,9 @@ trait CampaignRepository extends BaseRepository {
     findAndUpdate[Campaign](selector, Json.toJsObject(campaign))
   }
 
+  def removeCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
+    val selector: JsObject = Json.obj("id" -> campaignId)
+    findAndRemove[Campaign](selector)
+  }
+
 }
