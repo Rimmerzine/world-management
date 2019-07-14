@@ -33,8 +33,7 @@ trait CampaignController extends BaseController {
     }
   }
 
-  val remove: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    val campaignId: String = (request.body \ "id").as[String]
+  def remove(campaignId: String): Action[AnyContent] = Action.async { implicit request =>
     campaignService.removeCampaign(campaignId).map {
       case Some(campaign) => Ok(Json.toJson(campaign))
       case None => NotFound
