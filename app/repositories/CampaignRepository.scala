@@ -19,6 +19,11 @@ trait CampaignRepository extends BaseRepository {
     find[Campaign](selector)
   }
 
+  def retrieveSingleCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
+    val selector: JsObject = Json.obj("id" -> campaignId)
+    findOne[Campaign](selector)
+  }
+
   def insertCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = {
     insert(campaign)
   }

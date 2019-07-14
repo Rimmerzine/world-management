@@ -1,5 +1,6 @@
 # Campaign Routes
-GET     /world-management/campaigns/retrieve            controllers.CampaignController.campaigns()
+GET     /world-management/campaigns/retrieve            controllers.CampaignController.getAllCampaigns()
+GET     /world-management/campaigns/retrieve/:id        controllers.CampaignController.getSingleCampaign(id)
 POST    /world-management/campaigns/create              controllers.CampaignController.create()
 PUT     /world-management/campaigns/update              controllers.CampaignController.update()
 DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)

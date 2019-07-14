@@ -28,6 +28,13 @@ class CampaignServiceSpec extends UnitSpec with TestConstants {
     }
   }
 
+  "retrieveSingleCampaign" must {
+    "return back the campaign from the repository" in new Setup {
+      when(mockCampaignRepository.retrieveSingleCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(Some(testCampaign))
+      await(service.retrieveSingleCampaign(testCampaign.id)) mustBe Some(testCampaign)
+    }
+  }
+
   "createCampaign" must {
     "return what is returned from the repository" in new Setup {
       when(mockCampaignRepository.insertCampaign(matches(testCampaign))(any())) thenReturn Future.successful(testCampaign)

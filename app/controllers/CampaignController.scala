@@ -15,10 +15,17 @@ trait CampaignController extends BaseController {
   implicit val ec: ExecutionContext = controllerComponents.executionContext
   val campaignService: CampaignService
 
-  val campaigns: Action[AnyContent] = Action.async { implicit request =>
+  val getAllCampaigns: Action[AnyContent] = Action.async { implicit request =>
     campaignService.retrieveCampaigns.map {
       case campaigns@_ :: _ => Ok(Json.toJson(campaigns))
       case Nil => NoContent
+    }
+  }
+
+  val getSingleCampaign: String => Action[AnyContent] = campaignId => Action.async { implicit request =>
+    campaignService.retrieveSingleCampaign(campaignId).map {
+      case Some(campaign) => Ok(Json.toJson(campaign))
+      case None => NotFound
     }
   }
 
