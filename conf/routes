@@ -2,7 +2,7 @@
 GET     /world-management/campaigns/retrieve            controllers.CampaignController.campaigns()
 POST    /world-management/campaigns/create              controllers.CampaignController.create()
 PUT     /world-management/campaigns/update              controllers.CampaignController.update()
-DELETE  /world-management/campaigns/remove              controllers.CampaignController.remove()
+DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)
 
 #Assets
 GET     /assets/*file                   controllers.Assets.versioned(file)
