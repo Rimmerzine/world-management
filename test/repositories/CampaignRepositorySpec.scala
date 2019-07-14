@@ -37,6 +37,25 @@ class CampaignRepositorySpec extends RepositorySpec with TestConstants {
     }
   }
 
+  "retrieveSingleCampaign" must {
+    "return a single campaign from the database" when {
+      "there is one campaign in the database" in new Setup(testCampaign) {
+        await(repository.retrieveSingleCampaign(testCampaign.id)) mustBe Some(testCampaign)
+      }
+      "there are multiple campaigns in the database" in new Setup(testCampaignMinimal, testCampaign) {
+        await(repository.retrieveSingleCampaign(testCampaign.id)) mustBe Some(testCampaign)
+      }
+    }
+    "return nothing from the database" when {
+      "there are no campaigns in the database" in new Setup {
+        await(repository.retrieveSingleCampaign(testCampaign.id)) mustBe None
+      }
+      "the selected campaign is not in the database" in new Setup(testCampaignMinimal) {
+        await(repository.retrieveSingleCampaign(testCampaign.id)) mustBe None
+      }
+    }
+  }
+
   "insertCampaign" must {
     "insert a full campaign into the database and return back the campaign inserted" when {
       "the database does not contain any campaigns" in new Setup {

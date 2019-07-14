@@ -14,6 +14,10 @@ trait CampaignService {
 
   def retrieveCampaigns(implicit ec: ExecutionContext): Future[List[Campaign]] = campaignRepository.retrieveCampaigns
 
+  def retrieveSingleCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
+    campaignRepository.retrieveSingleCampaign(campaignId)
+  }
+
   def createCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = campaignRepository.insertCampaign(campaign)
 
   def updateCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Option[Campaign]] = campaignRepository.updateCampaign(campaign)
