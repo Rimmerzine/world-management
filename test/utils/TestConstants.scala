@@ -1,9 +1,9 @@
 package utils
 
-import models.{Campaign, Plane}
+import models.{Campaign, Land, Plane}
 import play.api.libs.json.{JsObject, Json, OFormat}
 
-trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants {
+trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants with LandConstants {
 
   val emptyJson: JsObject = Json.obj()
 
@@ -81,6 +81,39 @@ trait PlaneConstants {
     "planeId" -> (testPlaneId + "Min"),
     "name" -> testPlaneName,
     "alignment" -> testPlaneAlignment
+  )
+
+}
+
+trait LandConstants {
+
+  val testPlaneId: String
+  val testLandId: String = "testLandId"
+  val testLandName: String = "testLandName"
+  val testLandDescription: String = "testLandDescription"
+
+  val testLand: Land = Land(testPlaneId, testLandId + "Full", testLandName, Some(testLandDescription))
+  val testLandMinimal: Land = Land(testPlaneId, testLandId + "Min", testLandName, None)
+
+  def testLands(count: Int): List[Land] = {
+    for {
+      num <- (0 to count).toList
+    } yield {
+      Land(testPlaneId, testLandId + num, testLandName + num, Some(testLandDescription + num))
+    }
+  }
+
+  val testLandJson: JsObject = Json.obj(
+    "planeId" -> testPlaneId,
+    "landId" -> (testLandId + "Full"),
+    "name" -> testLandName,
+    "description" -> testLandDescription
+  )
+
+  val testLandMinimalJson: JsObject = Json.obj(
+    "planeId" -> testPlaneId,
+    "landId" -> (testLandId + "Min"),
+    "name" -> testLandName
   )
 
 }
