@@ -11,14 +11,14 @@ class PlaneRepositorySpec extends RepositorySpec with TestConstants {
 
   val testCollectionName: String = "test-planes"
 
-  class Setup(repoCampaigns: Plane*) {
+  class Setup(repoPlanes: Plane*) {
     val repository: PlaneRepository = new PlaneRepository {
       val reactiveApi: ReactiveMongoApi = testReactiveApi
       val databaseName: String = testDatabaseName
       val collectionName: String = testCollectionName
     }
 
-    insertMany(repoCampaigns.toList)
+    insertMany(repoPlanes.toList)
   }
 
   "retrievePlanes" must {
