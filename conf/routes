@@ -5,5 +5,12 @@ POST    /world-management/campaigns/create              controllers.CampaignCont
 PUT     /world-management/campaigns/update              controllers.CampaignController.update()
 DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)
 
+# Plane Routes
+GET     /world-management/campaign/:id/planes           controllers.PlaneController.getAllPlanes(id)
+GET     /world-management/planes/retrieve/:id           controllers.PlaneController.getSinglePlane(id)
+POST    /world-management/planes/create                 controllers.PlaneController.create()
+PUT     /world-management/planes/update                 controllers.PlaneController.update()
+DELETE  /world-management/planes/remove/:id             controllers.PlaneController.remove(id)
+
 #Assets
-GET     /assets/*file                   controllers.Assets.versioned(file)
+GET     /assets/*file                                   controllers.Assets.versioned(file)

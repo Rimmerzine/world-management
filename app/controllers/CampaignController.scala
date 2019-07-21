@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 import models.Campaign
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.CampaignService
 
@@ -40,7 +40,7 @@ trait CampaignController extends BaseController {
     }
   }
 
-  def remove(campaignId: String): Action[AnyContent] = Action.async { implicit request =>
+  val remove: String => Action[AnyContent] = campaignId => Action.async { implicit request =>
     campaignService.removeCampaign(campaignId).map {
       case Some(campaign) => Ok(Json.toJson(campaign))
       case None => NotFound
