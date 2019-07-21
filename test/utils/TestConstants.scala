@@ -1,9 +1,9 @@
 package utils
 
-import models.Campaign
+import models.{Campaign, Plane}
 import play.api.libs.json.{JsObject, Json, OFormat}
 
-trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants {
+trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants {
 
   val emptyJson: JsObject = Json.obj()
 
@@ -46,5 +46,41 @@ trait CampaignConstants {
 
   val testCampaignJson: JsObject = Json.obj("id" -> (testCampaignId + "Full"), "name" -> testCampaignName, "description" -> testCampaignDescription)
   val testCampaignMinimalJson: JsObject = Json.obj("id" -> (testCampaignId + "Min"), "name" -> testCampaignName)
+
+}
+
+trait PlaneConstants {
+
+  val testCampaignId: String
+  val testPlaneId: String = "testPlaneId"
+  val testPlaneName: String = "testPlaneName"
+  val testPlaneDescription: String = "testPlaneDescription"
+  val testPlaneAlignment: String = "testPlaneAlignment"
+
+  val testPlane: Plane = Plane(testCampaignId, testPlaneId + "Full", testPlaneName, Some(testPlaneDescription), testPlaneAlignment)
+  val testPlaneMinimal: Plane = Plane(testCampaignId, testPlaneId + "Min", testPlaneName, None, testPlaneAlignment)
+
+  def testPlanes(count: Int): List[Plane] = {
+    for {
+      num <- (0 to count).toList
+    } yield {
+      Plane(testCampaignId, testPlaneId + num, testPlaneName + num, Some(testPlaneDescription + num), testPlaneAlignment + num)
+    }
+  }
+
+  val testPlaneJson: JsObject = Json.obj(
+    "campaignId" -> testCampaignId,
+    "planeId" -> (testPlaneId + "Full"),
+    "name" -> testPlaneName,
+    "description" -> testPlaneDescription,
+    "alignment" -> testPlaneAlignment
+  )
+
+  val testPlaneMinimalJson: JsObject = Json.obj(
+    "campaignId" -> testCampaignId,
+    "planeId" -> (testPlaneId + "Min"),
+    "name" -> testPlaneName,
+    "alignment" -> testPlaneAlignment
+  )
 
 }
