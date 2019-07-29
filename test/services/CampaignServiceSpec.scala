@@ -2,10 +2,10 @@ package services
 
 import helpers.UnitSpec
 import models.Campaign
-import repositories.CampaignRepository
+import org.mockito.ArgumentMatchers.{any, eq => matches}
 import org.mockito.Mockito.when
+import repositories.CampaignRepository
 import utils.TestConstants
-import org.mockito.ArgumentMatchers.{eq => matches, any}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

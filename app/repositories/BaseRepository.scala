@@ -1,6 +1,6 @@
 package repositories
 
-import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json._
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.{Cursor, ReadPreference}
 import reactivemongo.play.json.ImplicitBSONHandlers._
@@ -15,6 +15,8 @@ trait BaseRepository {
   val reactiveApi: ReactiveMongoApi
   val databaseName: String
   val collectionName: String
+
+  protected def writeNullable[A](path: JsPath)(implicit writes: Writes[A]): OWrites[Option[A]] = path.writeNullable[A]
 
   private def collection(implicit ec: ExecutionContext): Future[JSONCollection] = {
     reactiveApi.connection.database(databaseName).map(_.collection[JSONCollection](collectionName))

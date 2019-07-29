@@ -2,14 +2,14 @@ package controllers
 
 import helpers.UnitSpec
 import models.Campaign
-import play.api.mvc.{AnyContent, AnyContentAsEmpty, AnyContentAsJson, ControllerComponents, Request, Result}
+import org.mockito.ArgumentMatchers.{any, eq => matches}
+import org.mockito.Mockito.when
+import play.api.libs.json.Json
+import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.CampaignService
 import utils.TestConstants
-import org.mockito.Mockito.when
-import play.api.libs.json.{JsValue, Json}
-import org.mockito.ArgumentMatchers.{any, eq => matches}
 
 import scala.concurrent.Future
 
@@ -20,6 +20,7 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
 
     val controller: CampaignController = new CampaignController {
       val campaignService: CampaignService = mockCampaignService
+
       protected def controllerComponents: ControllerComponents = stubControllerComponents()
     }
   }

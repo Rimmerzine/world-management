@@ -20,6 +20,7 @@ class PlaneControllerSpec extends UnitSpec with TestConstants {
 
     val controller: PlaneController = new PlaneController {
       val planeService: PlaneService = mockPlaneService
+
       protected def controllerComponents: ControllerComponents = stubControllerComponents()
     }
   }
