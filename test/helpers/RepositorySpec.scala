@@ -32,7 +32,9 @@ trait RepositorySpec extends UnitSpec with GuiceOneAppPerSuite with BeforeAndAft
   }
 
   def insertOne[A](data: A)(implicit writes: Writer[A]): WriteResult = await(collection.insert(false).one(data))
+
   def insertMany[A](data: List[A])(implicit writes: Writer[A]): MultiBulkWriteResult = await(collection.insert(false).many(data))
+
   def findAll[A](implicit reads: Reader[A]): List[A] = {
     await(collection.find(Json.obj(), None).cursor[A](ReadPreference.primaryPreferred).collect[List](-1, Cursor.FailOnError[List[A]]()))
   }

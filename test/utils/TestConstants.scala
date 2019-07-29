@@ -1,9 +1,9 @@
 package utils
 
-import models.{Campaign, Land, Plane}
+import models._
 import play.api.libs.json.{JsObject, Json, OFormat}
 
-trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants with LandConstants {
+trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants with LandConstants with CreatureConstants {
 
   val emptyJson: JsObject = Json.obj()
 
@@ -114,6 +114,237 @@ trait LandConstants {
     "planeId" -> testPlaneId,
     "landId" -> (testLandId + "Min"),
     "name" -> testLandName
+  )
+
+}
+
+trait CreatureConstants {
+
+  val testCreatureId: String = "testCreatureId"
+  val testCreatureName: String = "testCreatureName"
+  val testCreatureDescription: String = "testCreatureDescription"
+  val testCreatureSize: String = "testCreatureSize"
+  val testCreatureAlignment: String = "testCreatureAlignment"
+  val testCreatureArmourClass: Int = 20
+  val testCreatureHitPoints: String = "18d8+54"
+  val testCreatureType: String = "testCreatureType"
+  val testCreatureChallengeRating: Double = 20
+  val testCreatureTypeTag: String = "testCreatureTypeTag"
+
+  val testMovementSpeedName: String = "testMovementSpeedName"
+  val testMovementSpeedValue: Int = 30
+  val testCreatureMovementSpeed: MovementSpeed = MovementSpeed(testMovementSpeedName, testMovementSpeedValue)
+
+  val testCreatureMovementSpeedJson: JsObject = Json.obj(
+    "name" -> testMovementSpeedName,
+    "value" -> testMovementSpeedValue
+  )
+
+  val testAbilityScoreName: String = "testAbilityScoreName"
+  val testAbilityScoreValue: Int = 20
+  val testAbilityScoreProficient: Boolean = true
+  val testCreatureAbilityScore: AbilityScore = AbilityScore(testAbilityScoreName, testAbilityScoreValue, testAbilityScoreProficient)
+
+  val testCreatureAbilityScoreJson: JsObject = Json.obj(
+    "name" -> testAbilityScoreName,
+    "value" -> testAbilityScoreValue,
+    "proficient" -> testAbilityScoreProficient
+  )
+
+  val testSkillProficiencyName: String = "testSkillProficiencyName"
+  val testSkillProficiencyValue: String = "testSkillProficiencyValue"
+  val testCreatureSkillProficiency: SkillProficiency = SkillProficiency(testSkillProficiencyName, testSkillProficiencyValue)
+
+  val testCreatureSkillProficiencyJson: JsObject = Json.obj(
+    "name" -> testSkillProficiencyName,
+    "value" -> testSkillProficiencyValue
+  )
+
+  val testDamageIntakeName: String = "testDamageIntakeName"
+  val testDamageIntakeValue: String = "testDamageIntakeValue"
+  val testCreatureDamageIntake: DamageIntake = DamageIntake(testDamageIntakeName, testDamageIntakeValue)
+
+  val testCreatureDamageIntakeJson: JsObject = Json.obj(
+    "name" -> testDamageIntakeName,
+    "value" -> testDamageIntakeValue
+  )
+
+  val testCreatureConditionImmunity: String = "testCreatureConditionImmunity"
+
+  val testSenseName: String = "testSenseName"
+  val testSenseValue: Int = 30
+  val testCreatureSense: Sense = Sense(testSenseName, testSenseValue)
+
+  val testCreatureSenseJson: JsObject = Json.obj(
+    "name" -> testSenseName,
+    "value" -> testSenseValue
+  )
+
+  val testCreatureLanguage: String = "testCreatureLanguage"
+
+  val testTraitName: String = "testTraitName"
+  val testTraitDescription: String = "testTraitDescription"
+  val testCreatureTrait: Trait = Trait(testTraitName, testTraitDescription)
+
+  val testCreatureTraitJson: JsObject = Json.obj(
+    "name" -> testTraitName,
+    "description" -> testTraitDescription
+  )
+
+  val testActionName: String = "testActionName"
+  val testActionDescription: String = "testActionDescription"
+  val testCreatureAction: Action = Action(testActionName, testActionDescription)
+
+  val testCreatureActionJson: JsObject = Json.obj(
+    "name" -> testActionName,
+    "description" -> testActionDescription
+  )
+
+  val testLegendaryActionName: String = "testLegendaryActionName"
+  val testLegendaryActionDescription: String = "testLegendaryActionDescription"
+  val testCreatureLegendaryAction: LegendaryAction = LegendaryAction(testLegendaryActionName, testLegendaryActionDescription)
+
+  val testCreatureLegendaryActionJson: JsObject = Json.obj(
+    "name" -> testLegendaryActionName,
+    "description" -> testLegendaryActionDescription
+  )
+
+  val testCreature: Creature = Creature(
+    id = testCreatureId,
+    name = testCreatureName,
+    description = Some(testCreatureDescription),
+    size = testCreatureSize,
+    alignment = testCreatureAlignment,
+    armourClass = testCreatureArmourClass,
+    hitPoints = testCreatureHitPoints,
+    creatureType = testCreatureType,
+    challengeRating = testCreatureChallengeRating,
+    typeTags = List(testCreatureTypeTag),
+    movementSpeeds = List(testCreatureMovementSpeed),
+    abilityScores = List(testCreatureAbilityScore),
+    skillProficiencies = List(testCreatureSkillProficiency),
+    damageIntakes = List(testCreatureDamageIntake),
+    conditionImmunities = List(testCreatureConditionImmunity),
+    senses = List(testCreatureSense),
+    languages = List(testCreatureLanguage),
+    creatureTraits = List(testCreatureTrait),
+    actions = List(testCreatureAction),
+    legendaryActions = List(testCreatureLegendaryAction)
+  )
+
+  val testCreatureJson: JsObject = Json.obj(
+    "id" -> testCreatureId,
+    "name" -> testCreatureName,
+    "description" -> testCreatureDescription,
+    "size" -> testCreatureSize,
+    "alignment" -> testCreatureAlignment,
+    "armourClass" -> testCreatureArmourClass,
+    "hitPoints" -> testCreatureHitPoints,
+    "creatureType" -> testCreatureType,
+    "challengeRating" -> testCreatureChallengeRating,
+    "typeTags" -> Json.arr(
+      testCreatureTypeTag
+    ),
+    "movementSpeeds" -> Json.arr(
+      Json.obj(
+        "name" -> testMovementSpeedName,
+        "value" -> testMovementSpeedValue
+      )
+    ),
+    "abilityScores" -> Json.arr(
+      Json.obj(
+        "name" -> testAbilityScoreName,
+        "value" -> testAbilityScoreValue,
+        "proficient" -> testAbilityScoreProficient
+      )
+    ),
+    "skillProficiencies" -> Json.arr(
+      Json.obj(
+        "name" -> testSkillProficiencyName,
+        "value" -> testSkillProficiencyValue
+      )
+    ),
+    "damageIntakes" -> Json.arr(
+      Json.obj(
+        "name" -> testDamageIntakeName,
+        "value" -> testDamageIntakeValue
+      )
+    ),
+    "conditionImmunities" -> Json.arr(
+      testCreatureConditionImmunity
+    ),
+    "senses" -> Json.arr(
+      Json.obj(
+        "name" -> testSenseName,
+        "value" -> testSenseValue
+      )
+    ),
+    "languages" -> Json.arr(
+      testCreatureLanguage
+    ),
+    "creatureTraits" -> Json.arr(
+      Json.obj(
+        "name" -> testTraitName,
+        "description" -> testTraitDescription
+      )
+    ),
+    "actions" -> Json.arr(
+      Json.obj(
+        "name" -> testActionName,
+        "description" -> testActionDescription
+      )
+    ),
+    "legendaryActions" -> Json.arr(
+      Json.obj(
+        "name" -> testLegendaryActionName,
+        "description" -> testLegendaryActionDescription
+      )
+    )
+  )
+
+  val testCreatureMinimal: Creature = Creature(
+    id = testCreatureId,
+    name = testCreatureName,
+    description = None,
+    size = testCreatureSize,
+    alignment = testCreatureAlignment,
+    armourClass = testCreatureArmourClass,
+    hitPoints = testCreatureHitPoints,
+    creatureType = testCreatureType,
+    challengeRating = testCreatureChallengeRating,
+    typeTags = List.empty[String],
+    movementSpeeds = List.empty[MovementSpeed],
+    abilityScores = List.empty[AbilityScore],
+    skillProficiencies = List.empty[SkillProficiency],
+    damageIntakes = List.empty[DamageIntake],
+    conditionImmunities = List.empty[String],
+    senses = List.empty[Sense],
+    languages = List.empty[String],
+    creatureTraits = List.empty[Trait],
+    actions = List.empty[Action],
+    legendaryActions = List.empty[LegendaryAction]
+  )
+
+  val testCreatureMinimalJson: JsObject = Json.obj(
+    "id" -> testCreatureId,
+    "name" -> testCreatureName,
+    "size" -> testCreatureSize,
+    "alignment" -> testCreatureAlignment,
+    "armourClass" -> testCreatureArmourClass,
+    "hitPoints" -> testCreatureHitPoints,
+    "creatureType" -> testCreatureType,
+    "challengeRating" -> testCreatureChallengeRating,
+    "typeTags" -> Json.arr(),
+    "movementSpeeds" -> Json.arr(),
+    "abilityScores" -> Json.arr(),
+    "skillProficiencies" -> Json.arr(),
+    "damageIntakes" -> Json.arr(),
+    "conditionImmunities" -> Json.arr(),
+    "senses" -> Json.arr(),
+    "languages" -> Json.arr(),
+    "creatureTraits" -> Json.arr(),
+    "actions" -> Json.arr(),
+    "legendaryActions" -> Json.arr()
   )
 
 }

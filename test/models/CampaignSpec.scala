@@ -1,7 +1,7 @@
 package models
 
 import org.scalatestplus.play.PlaySpec
-import play.api.libs.json.{JsError, JsObject, JsPath, JsSuccess, Json}
+import play.api.libs.json._
 import utils.TestConstants
 
 class CampaignSpec extends PlaySpec with TestConstants {

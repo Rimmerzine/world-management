@@ -12,5 +12,19 @@ POST    /world-management/planes/create                 controllers.PlaneControl
 PUT     /world-management/planes/update                 controllers.PlaneController.update()
 DELETE  /world-management/planes/remove/:id             controllers.PlaneController.remove(id)
 
+# Land Routes
+GET     /world-management/plane/:id/lands               controllers.LandController.getAllLands(id)
+GET     /world-management/lands/retrieve/:id            controllers.LandController.getSingleLand(id)
+POST    /world-management/lands/create                  controllers.LandController.create()
+PUT     /world-management/lands/update                  controllers.LandController.update()
+DELETE  /world-management/lands/remove/:id              controllers.LandController.remove(id)
+
+# Creature Routes
+GET     /world-management/creatures/retrieve            controllers.CreatureController.getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char])
+GET     /world-management/creatures/retrieve/:id        controllers.CreatureController.getSingleCreature(id)
+POST    /world-management/creatures/create              controllers.CreatureController.create()
+PUT     /world-management/creatures/update              controllers.CreatureController.update()
+DELETE  /world-management/creatures/remove/:id          controllers.CreatureController.remove(id)
+
 #Assets
 GET     /assets/*file                                   controllers.Assets.versioned(file)

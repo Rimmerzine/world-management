@@ -20,6 +20,7 @@ class LandControllerSpec extends UnitSpec with TestConstants {
 
     val controller: LandController = new LandController {
       val landService: LandService = mockLandService
+
       protected def controllerComponents: ControllerComponents = stubControllerComponents()
     }
   }
