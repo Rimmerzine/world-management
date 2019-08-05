@@ -1,4 +1,5 @@
 import com.google.inject.AbstractModule
+import config.{AppConfig, AppConfigImpl}
 import controllers._
 import repositories._
 import services._
@@ -21,6 +22,8 @@ class Module extends AbstractModule {
     bind(classOf[CreatureController]).to(classOf[CreatureControllerImpl]).asEagerSingleton()
     bind(classOf[CreatureService]).to(classOf[CreatureServiceImpl]).asEagerSingleton()
     bind(classOf[CreatureRepository]).to(classOf[CreatureRepositoryImpl]).asEagerSingleton()
+
+    bind(classOf[AppConfig]).to(classOf[AppConfigImpl]).asEagerSingleton()
   }
 
 }

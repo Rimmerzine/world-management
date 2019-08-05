@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import play.api.libs.json._
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.{Cursor, ReadPreference}
@@ -12,8 +13,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait BaseRepository {
 
+  val appConfig: AppConfig
   val reactiveApi: ReactiveMongoApi
-  val databaseName: String
+  lazy val databaseName: String = appConfig.databaseName
   val collectionName: String
 
   protected def writeNullable[A](path: JsPath)(implicit writes: Writes[A]): OWrites[Option[A]] = path.writeNullable[A]

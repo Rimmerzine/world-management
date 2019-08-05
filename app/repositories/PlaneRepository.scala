@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import javax.inject.Inject
 import models.Plane
 import play.api.libs.json.{JsObject, Json}
@@ -7,8 +8,7 @@ import play.modules.reactivemongo.ReactiveMongoApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class PlaneRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi) extends PlaneRepository {
-  val databaseName: String = "world-management"
+class PlaneRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi, val appConfig: AppConfig) extends PlaneRepository {
   val collectionName: String = "planes"
 }
 

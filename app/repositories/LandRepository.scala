@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import javax.inject.Inject
 import models.Land
 import play.api.libs.json.{JsObject, Json}
@@ -7,8 +8,7 @@ import play.modules.reactivemongo.ReactiveMongoApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class LandRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi) extends LandRepository {
-  val databaseName: String = "world-management"
+class LandRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi, val appConfig: AppConfig) extends LandRepository {
   val collectionName: String = "lands"
 }
 

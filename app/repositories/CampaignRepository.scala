@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import javax.inject.Inject
 import models.Campaign
 import play.api.libs.json.{JsObject, Json}
@@ -7,8 +8,7 @@ import play.modules.reactivemongo.ReactiveMongoApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CampaignRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi) extends CampaignRepository {
-  val databaseName: String = "world-management"
+class CampaignRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi, val appConfig: AppConfig) extends CampaignRepository {
   val collectionName: String = "campaigns"
 }
 

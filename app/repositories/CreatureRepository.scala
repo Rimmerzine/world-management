@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import javax.inject.Inject
 import models.Creature
 import play.api.libs.json.{JsObject, JsPath, Json}
@@ -7,8 +8,7 @@ import play.modules.reactivemongo.ReactiveMongoApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CreatureRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi) extends CreatureRepository {
-  val databaseName: String = "world-management"
+class CreatureRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi, val appConfig: AppConfig) extends CreatureRepository {
   val collectionName: String = "creatures"
 }
 
