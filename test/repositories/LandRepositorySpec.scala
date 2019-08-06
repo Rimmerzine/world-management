@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import helpers.RepositorySpec
 import models.Land
 import play.modules.reactivemongo.ReactiveMongoApi
@@ -13,8 +14,8 @@ class LandRepositorySpec extends RepositorySpec with TestConstants {
 
   class Setup(repoLands: Land*) {
     val repository: LandRepository = new LandRepository {
+      val appConfig: AppConfig = testAppConfig
       val reactiveApi: ReactiveMongoApi = testReactiveApi
-      val databaseName: String = testDatabaseName
       val collectionName: String = testCollectionName
     }
 

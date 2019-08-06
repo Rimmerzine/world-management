@@ -1,5 +1,6 @@
 package helpers
 
+import config.AppConfig
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
@@ -14,11 +15,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 trait RepositorySpec extends UnitSpec with GuiceOneAppPerSuite with BeforeAndAfterAll with BeforeAndAfterEach {
 
+  val testAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
   val testReactiveApi: ReactiveMongoApi = app.injector.instanceOf[ReactiveMongoApi]
-  val testDatabaseName: String = "world-management"
   val testCollectionName: String
 
-  lazy val database: DefaultDB = await(testReactiveApi.connection.database(testDatabaseName))
+  lazy val database: DefaultDB = await(testReactiveApi.connection.database(testAppConfig.databaseName))
   lazy val collection: JSONCollection = database.collection[JSONCollection](testCollectionName)
 
   override def beforeEach(): Unit = {

@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import helpers.RepositorySpec
 import models.Plane
 import play.modules.reactivemongo.ReactiveMongoApi
@@ -13,8 +14,8 @@ class PlaneRepositorySpec extends RepositorySpec with TestConstants {
 
   class Setup(repoPlanes: Plane*) {
     val repository: PlaneRepository = new PlaneRepository {
+      val appConfig: AppConfig = testAppConfig
       val reactiveApi: ReactiveMongoApi = testReactiveApi
-      val databaseName: String = testDatabaseName
       val collectionName: String = testCollectionName
     }
 

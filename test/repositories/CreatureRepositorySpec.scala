@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import helpers.RepositorySpec
 import models.Creature
 import play.modules.reactivemongo.ReactiveMongoApi
@@ -13,8 +14,8 @@ class CreatureRepositorySpec extends RepositorySpec with TestConstants {
 
   class Setup(repoCreatures: Creature*) {
     val repository: CreatureRepository = new CreatureRepository {
+      val appConfig: AppConfig = testAppConfig
       val reactiveApi: ReactiveMongoApi = testReactiveApi
-      val databaseName: String = testDatabaseName
       val collectionName: String = testCollectionName
     }
 

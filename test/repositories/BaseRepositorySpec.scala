@@ -1,5 +1,6 @@
 package repositories
 
+import config.AppConfig
 import helpers.RepositorySpec
 import play.modules.reactivemongo.ReactiveMongoApi
 import utils.TestConstants
@@ -11,8 +12,8 @@ class BaseRepositorySpec extends RepositorySpec with TestConstants {
   val testCollectionName: String = "test-campaigns"
 
   class Setup(documents: Tester*) extends BaseRepository {
+    val appConfig: AppConfig = testAppConfig
     val reactiveApi: ReactiveMongoApi = testReactiveApi
-    val databaseName: String = testDatabaseName
     val collectionName: String = testCollectionName
 
     insertMany(documents.toList)
