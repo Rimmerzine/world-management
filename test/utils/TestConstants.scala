@@ -1,7 +1,54 @@
 package utils
 
 import models._
-import play.api.libs.json.{JsObject, Json, OFormat}
+import play.api.libs.json.{JsObject, JsPath, Json, OFormat}
+
+trait WorldElementConstants {
+
+  val campaignJson: JsObject = Json.obj(
+    "elementType" -> "campaign",
+    "id" -> "testCampaignId",
+    "name" -> "testCampaignName",
+    "description" -> "testCampaignDescription",
+    "content" -> Json.arr()
+  )
+
+  val campaign: WMCampaign = WMCampaign("campaign", "testCampaignId", "testCampaignName", Some("testCampaignDescription"), List.empty[WorldElement])
+
+  val campaignMinimalJson: JsObject = campaignJson - "description"
+
+  val campaignMinimal: WMCampaign = campaign.copy(description = None)
+
+  val planeJson: JsObject = Json.obj(
+    "elementType" -> "plane",
+    "id" -> "testPlaneId",
+    "name" -> "testPlaneName",
+    "description" -> "testPlaneDescription",
+    "content" -> Json.arr(),
+    "alignment" -> "testPlaneAlignment"
+  )
+
+  val plane: WMPlane = WMPlane("plane", "testPlaneId", "testPlaneName", Some("testPlaneDescription"), List.empty[WorldElement], "testPlaneAlignment")
+
+  val planeMinimalJson: JsObject = planeJson - "description"
+
+  val planeMinimal: WMPlane = plane.copy(description = None)
+
+  val landJson: JsObject = Json.obj(
+    "elementType" -> "land",
+    "id" -> "testLandId",
+    "name" -> "testLandName",
+    "description" -> "testLandDescription",
+    "content" -> Json.arr()
+  )
+
+  val land: WMLand = WMLand("land", "testLandId", "testLandName", Some("testLandDescription"), List.empty[WorldElement])
+
+  val landMinimalJson: JsObject = landJson - "description"
+
+  val landMinimal: WMLand = land.copy(description = None)
+
+}
 
 trait TestConstants extends BaseRepositoryTestConstants with CampaignConstants with PlaneConstants with LandConstants with CreatureConstants {
 

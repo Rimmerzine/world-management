@@ -23,6 +23,10 @@ class Module extends AbstractModule {
     bind(classOf[CreatureService]).to(classOf[CreatureServiceImpl]).asEagerSingleton()
     bind(classOf[CreatureRepository]).to(classOf[CreatureRepositoryImpl]).asEagerSingleton()
 
+    bind(classOf[WorldElementController]).to(classOf[WorldElementControllerImpl]).asEagerSingleton()
+    bind(classOf[WorldElementService]).to(classOf[WorldElementServiceImpl]).asEagerSingleton()
+    bind(classOf[WorldElementRepository]).to(classOf[WorldElementRepositoryImpl]).asEagerSingleton()
+
     bind(classOf[AppConfig]).to(classOf[AppConfigImpl]).asEagerSingleton()
   }
 

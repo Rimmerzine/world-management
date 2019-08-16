@@ -26,5 +26,12 @@ POST    /world-management/creatures/create              controllers.CreatureCont
 PUT     /world-management/creatures/update              controllers.CreatureController.update()
 DELETE  /world-management/creatures/remove/:id          controllers.CreatureController.remove(id)
 
+# World Element Routes
+GET     /world-management/world-elements/retrieve       controllers.WorldElementController.getAllWorldElements()
+GET     /world-management/world-elements/retrieve/:id   controllers.WorldElementController.getSingleWorldElement(id)
+POST    /world-management/world-elements/create         controllers.WorldElementController.create()
+PUT     /world-management/world-elements/update         controllers.WorldElementController.update()
+DELETE  /world-management/world-elements/remove/:id     controllers.WorldElementController.remove(id)
+
 #Assets
 GET     /assets/*file                                   controllers.Assets.versioned(file)
