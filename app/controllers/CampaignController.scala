@@ -29,11 +29,11 @@ trait CampaignController extends BaseController {
     }
   }
 
-  val create: Action[Campaign] = Action.async(parse.json[Campaign]) { implicit request =>
+  val create: Action[Campaign] = Action.async(parse.json[Campaign](Campaign.reads)) { implicit request =>
     campaignService.createCampaign(request.body).map(campaign => Created(Json.toJson(campaign)))
   }
 
-  val update: Action[Campaign] = Action.async(parse.json[Campaign]) { implicit request =>
+  val update: Action[Campaign] = Action.async(parse.json[Campaign](Campaign.reads)) { implicit request =>
     campaignService.updateCampaign(request.body).map {
       case Some(campaign) => Ok(Json.toJson(campaign))
       case None => NotFound

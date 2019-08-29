@@ -26,12 +26,12 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
   }
 
   val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
-  val requestWithCampaignJson: FakeRequest[Campaign] = FakeRequest().withBody[Campaign](testCampaign)
+  val requestWithCampaignJson: FakeRequest[Campaign] = FakeRequest().withBody[Campaign](campaign)
 
   "getAllCampaigns" must {
     s"return $OK" when {
       "campaigns are returned from the service" in new Setup {
-        val campaignList: List[Campaign] = testCampaigns(5)
+        val campaignList: List[Campaign] = List(campaign, campaignMinimal)
         when(mockCampaignService.retrieveCampaigns(any())) thenReturn Future.successful(campaignList)
 
         val result: Future[Result] = controller.getAllCampaigns(request)
@@ -55,20 +55,20 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
   "getSingleCampaign" must {
     s"return $OK" when {
       "a campaign is returned from the service" in new Setup {
-        when(mockCampaignService.retrieveSingleCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(Some(testCampaign))
+        when(mockCampaignService.retrieveSingleCampaign(matches(campaign.id))(any())) thenReturn Future.successful(Some(campaign))
 
-        val result: Future[Result] = controller.getSingleCampaign(testCampaign.id)(request)
+        val result: Future[Result] = controller.getSingleCampaign(campaign.id)(request)
         status(result) mustBe OK
         contentType(result) mustBe Some("application/json")
-        contentAsJson(result) mustBe Json.toJson(testCampaign)
+        contentAsJson(result) mustBe Json.toJson(campaign)
       }
     }
 
     s"return $NOT_FOUND" when {
       "no campaign was returned from the service" in new Setup {
-        when(mockCampaignService.retrieveSingleCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(None)
+        when(mockCampaignService.retrieveSingleCampaign(matches(campaign.id))(any())) thenReturn Future.successful(None)
 
-        val result: Future[Result] = controller.getSingleCampaign(testCampaign.id)(request)
+        val result: Future[Result] = controller.getSingleCampaign(campaign.id)(request)
         status(result) mustBe NOT_FOUND
       }
     }
@@ -77,12 +77,12 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
   "create" must {
     s"return $CREATED with a json body of the campaign created" when {
       "the service returns back the campaign created" in new Setup {
-        when(mockCampaignService.createCampaign(matches(testCampaign))(any())) thenReturn Future.successful(testCampaign)
+        when(mockCampaignService.createCampaign(matches(campaign))(any())) thenReturn Future.successful(campaign)
 
         val result: Future[Result] = controller.create(requestWithCampaignJson)
         status(result) mustBe CREATED
         contentType(result) mustBe Some("application/json")
-        contentAsJson(result) mustBe testCampaignJson
+        contentAsJson(result) mustBe campaignJson
       }
     }
   }
@@ -90,18 +90,18 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
   "update" must {
     s"return $OK with a json body of the updated campaign" when {
       "the service returns back a campaign" in new Setup {
-        when(mockCampaignService.updateCampaign(matches(testCampaign))(any())) thenReturn Future.successful(Some(testCampaign))
+        when(mockCampaignService.updateCampaign(matches(campaign))(any())) thenReturn Future.successful(Some(campaign))
 
         val result: Future[Result] = controller.update(requestWithCampaignJson)
         status(result) mustBe OK
         contentType(result) mustBe Some("application/json")
-        contentAsJson(result) mustBe testCampaignJson
+        contentAsJson(result) mustBe campaignJson
       }
     }
 
     s"return back $NOT_FOUND" when {
       "no campaign is returned back from the service" in new Setup {
-        when(mockCampaignService.updateCampaign(matches(testCampaign))(any())) thenReturn Future.successful(None)
+        when(mockCampaignService.updateCampaign(matches(campaign))(any())) thenReturn Future.successful(None)
 
         val result: Future[Result] = controller.update(requestWithCampaignJson)
         status(result) mustBe NOT_FOUND
@@ -111,19 +111,19 @@ class CampaignControllerSpec extends UnitSpec with TestConstants {
 
   "remove" must {
     s"return $OK with a json body of the removed campaign" in new Setup {
-      when(mockCampaignService.removeCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(Some(testCampaign))
+      when(mockCampaignService.removeCampaign(matches(campaign.id))(any())) thenReturn Future.successful(Some(campaign))
 
-      val result: Future[Result] = controller.remove(testCampaign.id)(request)
+      val result: Future[Result] = controller.remove(campaign.id)(request)
       status(result) mustBe OK
       contentType(result) mustBe Some("application/json")
-      contentAsJson(result) mustBe testCampaignJson
+      contentAsJson(result) mustBe campaignJson
     }
 
     s"return $NOT_FOUND" when {
       "no campaign is returned back from the service" in new Setup {
-        when(mockCampaignService.removeCampaign(matches(testCampaign.id))(any())) thenReturn Future.successful(None)
+        when(mockCampaignService.removeCampaign(matches(campaign.id))(any())) thenReturn Future.successful(None)
 
-        val result: Future[Result] = controller.remove(testCampaign.id)(request)
+        val result: Future[Result] = controller.remove(campaign.id)(request)
         status(result) mustBe NOT_FOUND
       }
     }

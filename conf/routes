@@ -5,33 +5,5 @@ POST    /world-management/campaigns/create              controllers.CampaignCont
 PUT     /world-management/campaigns/update              controllers.CampaignController.update()
 DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)
 
-# Plane Routes
-GET     /world-management/campaign/:id/planes           controllers.PlaneController.getAllPlanes(id)
-GET     /world-management/planes/retrieve/:id           controllers.PlaneController.getSinglePlane(id)
-POST    /world-management/planes/create                 controllers.PlaneController.create()
-PUT     /world-management/planes/update                 controllers.PlaneController.update()
-DELETE  /world-management/planes/remove/:id             controllers.PlaneController.remove(id)
-
-# Land Routes
-GET     /world-management/plane/:id/lands               controllers.LandController.getAllLands(id)
-GET     /world-management/lands/retrieve/:id            controllers.LandController.getSingleLand(id)
-POST    /world-management/lands/create                  controllers.LandController.create()
-PUT     /world-management/lands/update                  controllers.LandController.update()
-DELETE  /world-management/lands/remove/:id              controllers.LandController.remove(id)
-
-# Creature Routes
-GET     /world-management/creatures/retrieve            controllers.CreatureController.getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char])
-GET     /world-management/creatures/retrieve/:id        controllers.CreatureController.getSingleCreature(id)
-POST    /world-management/creatures/create              controllers.CreatureController.create()
-PUT     /world-management/creatures/update              controllers.CreatureController.update()
-DELETE  /world-management/creatures/remove/:id          controllers.CreatureController.remove(id)
-
-# World Element Routes
-GET     /world-management/world-elements/retrieve       controllers.WorldElementController.getAllWorldElements()
-GET     /world-management/world-elements/retrieve/:id   controllers.WorldElementController.getSingleWorldElement(id)
-POST    /world-management/world-elements/create         controllers.WorldElementController.create()
-PUT     /world-management/world-elements/update         controllers.WorldElementController.update()
-DELETE  /world-management/world-elements/remove/:id     controllers.WorldElementController.remove(id)
-
 #Assets
 GET     /assets/*file                                   controllers.Assets.versioned(file)

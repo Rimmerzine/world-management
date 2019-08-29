@@ -16,12 +16,12 @@ trait CampaignRepository extends BaseRepository {
 
   def retrieveCampaigns(implicit ec: ExecutionContext): Future[List[Campaign]] = {
     val selector: JsObject = Json.obj()
-    find[Campaign](selector)
+    find[Campaign](selector)(Campaign.reads, implicitly)
   }
 
   def retrieveSingleCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
     val selector: JsObject = Json.obj("id" -> campaignId)
-    findOne[Campaign](selector)
+    findOne[Campaign](selector)(Campaign.reads, implicitly)
   }
 
   def insertCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Campaign] = {
@@ -30,12 +30,12 @@ trait CampaignRepository extends BaseRepository {
 
   def updateCampaign(campaign: Campaign)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
     val selector: JsObject = Json.obj("id" -> campaign.id)
-    findAndUpdate[Campaign](selector, Json.toJsObject(campaign))
+    findAndUpdate[Campaign](selector, Json.toJsObject(campaign))(implicitly, Campaign.reads, implicitly)
   }
 
   def removeCampaign(campaignId: String)(implicit ec: ExecutionContext): Future[Option[Campaign]] = {
     val selector: JsObject = Json.obj("id" -> campaignId)
-    findAndRemove[Campaign](selector)
+    findAndRemove[Campaign](selector)(implicitly, Campaign.reads, implicitly)
   }
 
 }

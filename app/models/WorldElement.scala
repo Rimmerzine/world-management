@@ -1,9 +1,8 @@
 package models
 
-import play.api.libs.json.{JsPath, Json, OFormat, Reads}
 import play.api.libs.json._
 
-case class WMCampaign(
+case class Campaign(
                      elementType: String,
                      id: String,
                      name: String,
@@ -11,12 +10,12 @@ case class WMCampaign(
                      content: List[WorldElement]
                    ) extends WorldElement
 
-object WMCampaign {
-  val reads: Reads[WMCampaign] = Json.reads[WMCampaign]
-  val writes: OWrites[WMCampaign] = Json.writes[WMCampaign]
+object Campaign {
+  val reads: Reads[Campaign] = Json.reads[Campaign]
+  val writes: OWrites[Campaign] = Json.writes[Campaign]
 }
 
-case class WMPlane(
+case class Plane(
                   elementType: String,
                   id: String,
                   name: String,
@@ -25,12 +24,12 @@ case class WMPlane(
                   alignment: String
                 ) extends WorldElement
 
-object WMPlane {
-  val reads: Reads[WMPlane] = Json.reads[WMPlane]
-  val writes: OWrites[WMPlane] = Json.writes[WMPlane]
+object Plane {
+  val reads: Reads[Plane] = Json.reads[Plane]
+  val writes: OWrites[Plane] = Json.writes[Plane]
 }
 
-case class WMLand(
+case class Land(
                  elementType: String,
                  id: String,
                  name: String,
@@ -38,9 +37,9 @@ case class WMLand(
                  content: List[WorldElement]
                ) extends WorldElement
 
-object WMLand {
-  val reads: Reads[WMLand] = Json.reads[WMLand]
-  val writes: OWrites[WMLand] = Json.writes[WMLand]
+object Land {
+  val reads: Reads[Land] = Json.reads[Land]
+  val writes: OWrites[Land] = Json.writes[Land]
 }
 
 sealed trait WorldElement {
@@ -55,17 +54,17 @@ object WorldElement {
 
   val jsonToWorldElement: JsValue => JsResult[WorldElement] = { json =>
     (json \ "elementType").validateOpt[String] flatMap {
-      case Some("campaign") => Json.fromJson(json)(WMCampaign.reads)
-      case Some("plane") => Json.fromJson(json)(WMPlane.reads)
-      case Some("land") => Json.fromJson(json)(WMLand.reads)
+      case Some("campaign") => Json.fromJson(json)(Campaign.reads)
+      case Some("plane") => Json.fromJson(json)(Plane.reads)
+      case Some("land") => Json.fromJson(json)(Land.reads)
       case _ => JsError(JsPath \ "elementType", "error.invalid")
     }
   }
 
   val worldElementToJson: WorldElement => JsObject = {
-    case campaign: WMCampaign => Json.toJsObject(campaign)(WMCampaign.writes)
-    case plane: WMPlane => Json.toJsObject(plane)(WMPlane.writes)
-    case land: WMLand => Json.toJsObject(land)(WMLand.writes)
+    case campaign: Campaign => Json.toJsObject(campaign)(Campaign.writes)
+    case plane: Plane => Json.toJsObject(plane)(Plane.writes)
+    case land: Land => Json.toJsObject(land)(Land.writes)
   }
 
   val reads: Reads[WorldElement] = Reads[WorldElement](jsonToWorldElement)
