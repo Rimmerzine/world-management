@@ -5,5 +5,12 @@ POST    /world-management/campaigns/create              controllers.CampaignCont
 PUT     /world-management/campaigns/update              controllers.CampaignController.update()
 DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)
 
+# Creature Routes
+GET     /world-management/creatures/retrieve            controllers.CreatureController.getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char])
+GET     /world-management/creatures/retrieve/:id        controllers.CreatureController.getSingleCreature(id)
+POST    /world-management/creatures/create              controllers.CreatureController.create()
+PUT     /world-management/creatures/update              controllers.CreatureController.update()
+DELETE  /world-management/creatures/remove/:id          controllers.CreatureController.remove(id)
+
 #Assets
 GET     /assets/*file                                   controllers.Assets.versioned(file)
