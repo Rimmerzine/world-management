@@ -1,5 +1,7 @@
 package utils
 
+import models.DamageIntakes.{NoResistance, Resistant}
+import models.SkillProficiencies.{NoProficiency, Proficiency}
 import models._
 import play.api.libs.json.{JsObject, JsPath, Json, OFormat}
 
@@ -85,231 +87,363 @@ trait BaseRepositoryTestConstants {
 
 trait CreatureConstants {
 
-  val testCreatureId: String = "testCreatureId"
-  val testCreatureName: String = "testCreatureName"
-  val testCreatureDescription: String = "testCreatureDescription"
-  val testCreatureSize: String = "testCreatureSize"
-  val testCreatureAlignment: String = "testCreatureAlignment"
-  val testCreatureArmourClass: Int = 20
-  val testCreatureHitPoints: String = "18d8+54"
-  val testCreatureType: String = "testCreatureType"
-  val testCreatureChallengeRating: Double = 20
-  val testCreatureTypeTag: String = "testCreatureTypeTag"
+  val creatureId: String = "testCreatureId"
+  val creatureName: String = "testCreatureName"
+  val creatureDescription: String = "testCreatureDescription"
+  val creatureSize: String = "medium"
+  val creatureAlignment: String = "lawful-good"
+  val creatureArmourClass: Int = 18
+  val creatureHitPoints: String = "18d8+54"
+  var creatureType: String = "undead"
+  val creatureChallengeRating: Int = 20
+  val creatureTypeTag: String = "humanoid"
 
-  val testMovementSpeedName: String = "testMovementSpeedName"
-  val testMovementSpeedValue: Int = 30
-  val testCreatureMovementSpeed: MovementSpeed = MovementSpeed(testMovementSpeedName, testMovementSpeedValue)
-
-  val testCreatureMovementSpeedJson: JsObject = Json.obj(
-    "name" -> testMovementSpeedName,
-    "value" -> testMovementSpeedValue
+  val creatureMovementSpeedValue: Int = 30
+  val creatureMovementSpeeds: MovementSpeeds = MovementSpeeds(
+    basic = creatureMovementSpeedValue,
+    burrow = creatureMovementSpeedValue,
+    climb = creatureMovementSpeedValue,
+    fly = creatureMovementSpeedValue,
+    swim = creatureMovementSpeedValue
+  )
+  val creatureMovementSpeedsJson: JsObject = Json.obj(
+    "basic" -> creatureMovementSpeedValue,
+    "burrow" -> creatureMovementSpeedValue,
+    "climb" -> creatureMovementSpeedValue,
+    "fly" -> creatureMovementSpeedValue,
+    "swim" -> creatureMovementSpeedValue
   )
 
-  val testAbilityScoreName: String = "testAbilityScoreName"
-  val testAbilityScoreValue: Int = 20
-  val testAbilityScoreProficient: Boolean = true
-  val testCreatureAbilityScore: AbilityScore = AbilityScore(testAbilityScoreName, testAbilityScoreValue, testAbilityScoreProficient)
-
-  val testCreatureAbilityScoreJson: JsObject = Json.obj(
-    "name" -> testAbilityScoreName,
-    "value" -> testAbilityScoreValue,
-    "proficient" -> testAbilityScoreProficient
+  val creatureAbilityScoreValue: Int = 20
+  val creatureAbilityScoreProficient: Boolean = true
+  val creatureAbilityScore: AbilityScore = AbilityScore(creatureAbilityScoreValue, creatureAbilityScoreProficient)
+  val creatureAbilityScoreJson: JsObject = Json.obj(
+    "score" -> creatureAbilityScoreValue,
+    "proficient" -> creatureAbilityScoreProficient
+  )
+  val creatureAbilityScoreNoProficiency: AbilityScore = AbilityScore(creatureAbilityScoreValue, !creatureAbilityScoreProficient)
+  val creatureAbilityScoreNoProficiencyJson: JsObject = Json.obj(
+    "score" -> creatureAbilityScoreValue,
+    "proficient" -> !creatureAbilityScoreProficient
+  )
+  val creatureAbilityScores: AbilityScores = AbilityScores(
+    strength = creatureAbilityScore,
+    dexterity = creatureAbilityScore,
+    constitution = creatureAbilityScore,
+    intelligence = creatureAbilityScore,
+    wisdom = creatureAbilityScore,
+    charisma = creatureAbilityScore
+  )
+  val creatureAbilityScoresJson: JsObject = Json.obj(
+    "strength" -> creatureAbilityScoreJson,
+    "dexterity" -> creatureAbilityScoreJson,
+    "constitution" -> creatureAbilityScoreJson,
+    "intelligence" -> creatureAbilityScoreJson,
+    "wisdom" -> creatureAbilityScoreJson,
+    "charisma" -> creatureAbilityScoreJson
+  )
+  val creatureAbilityScoresNoProficiency: AbilityScores = AbilityScores(
+    strength = creatureAbilityScoreNoProficiency,
+    dexterity = creatureAbilityScoreNoProficiency,
+    constitution = creatureAbilityScoreNoProficiency,
+    intelligence = creatureAbilityScoreNoProficiency,
+    wisdom = creatureAbilityScoreNoProficiency,
+    charisma = creatureAbilityScoreNoProficiency
+  )
+  val creatureAbilityScoresNoProficiencyJson: JsObject = Json.obj(
+    "strength" -> creatureAbilityScoreNoProficiencyJson,
+    "dexterity" -> creatureAbilityScoreNoProficiencyJson,
+    "constitution" -> creatureAbilityScoreNoProficiencyJson,
+    "intelligence" -> creatureAbilityScoreNoProficiencyJson,
+    "wisdom" -> creatureAbilityScoreNoProficiencyJson,
+    "charisma" -> creatureAbilityScoreNoProficiencyJson
   )
 
-  val testSkillProficiencyName: String = "testSkillProficiencyName"
-  val testSkillProficiencyValue: String = "testSkillProficiencyValue"
-  val testCreatureSkillProficiency: SkillProficiency = SkillProficiency(testSkillProficiencyName, testSkillProficiencyValue)
-
-  val testCreatureSkillProficiencyJson: JsObject = Json.obj(
-    "name" -> testSkillProficiencyName,
-    "value" -> testSkillProficiencyValue
+  val creatureSkillProficiencies: SkillProficiencies = SkillProficiencies(
+    animalHandling = Proficiency,
+    arcana = Proficiency,
+    athletics = Proficiency,
+    deception = Proficiency,
+    history = Proficiency,
+    insight = Proficiency,
+    intimidation = Proficiency,
+    investigation = Proficiency,
+    medicine = Proficiency,
+    nature = Proficiency,
+    perception = Proficiency,
+    persuasion = Proficiency,
+    religion = Proficiency,
+    slightOfHand = Proficiency,
+    stealth = Proficiency,
+    survival = Proficiency
+  )
+  val creatureSkillProficienciesJson: JsObject = Json.obj(
+    "animalHandling" -> Proficiency,
+    "arcana" -> Proficiency,
+    "athletics" -> Proficiency,
+    "deception" -> Proficiency,
+    "history" -> Proficiency,
+    "insight" -> Proficiency,
+    "intimidation" -> Proficiency,
+    "investigation" -> Proficiency,
+    "medicine" -> Proficiency,
+    "nature" -> Proficiency,
+    "perception" -> Proficiency,
+    "persuasion" -> Proficiency,
+    "religion" -> Proficiency,
+    "slightOfHand" -> Proficiency,
+    "stealth" -> Proficiency,
+    "survival" -> Proficiency
+  )
+  val creatureSkillProficienciesNone: SkillProficiencies = SkillProficiencies(
+    animalHandling = NoProficiency,
+    arcana = NoProficiency,
+    athletics = NoProficiency,
+    deception = NoProficiency,
+    history = NoProficiency,
+    insight = NoProficiency,
+    intimidation = NoProficiency,
+    investigation = NoProficiency,
+    medicine = NoProficiency,
+    nature = NoProficiency,
+    perception = NoProficiency,
+    persuasion = NoProficiency,
+    religion = NoProficiency,
+    slightOfHand = NoProficiency,
+    stealth = NoProficiency,
+    survival = NoProficiency
+  )
+  val creatureSkillProficienciesNoneJson: JsObject = Json.obj(
+    "animalHandling" -> NoProficiency,
+    "arcana" -> NoProficiency,
+    "athletics" -> NoProficiency,
+    "deception" -> NoProficiency,
+    "history" -> NoProficiency,
+    "insight" -> NoProficiency,
+    "intimidation" -> NoProficiency,
+    "investigation" -> NoProficiency,
+    "medicine" -> NoProficiency,
+    "nature" -> NoProficiency,
+    "perception" -> NoProficiency,
+    "persuasion" -> NoProficiency,
+    "religion" -> NoProficiency,
+    "slightOfHand" -> NoProficiency,
+    "stealth" -> NoProficiency,
+    "survival" -> NoProficiency
   )
 
-  val testDamageIntakeName: String = "testDamageIntakeName"
-  val testDamageIntakeValue: String = "testDamageIntakeValue"
-  val testCreatureDamageIntake: DamageIntake = DamageIntake(testDamageIntakeName, testDamageIntakeValue)
-
-  val testCreatureDamageIntakeJson: JsObject = Json.obj(
-    "name" -> testDamageIntakeName,
-    "value" -> testDamageIntakeValue
+  val creatureDamageIntakes: DamageIntakes = DamageIntakes(
+    bludgeoning = Resistant,
+    piercing = Resistant,
+    slashing = Resistant,
+    acid = Resistant,
+    cold = Resistant,
+    fire = Resistant,
+    force = Resistant,
+    lightning = Resistant,
+    necrotic = Resistant,
+    poison = Resistant,
+    psychic = Resistant,
+    radiant = Resistant,
+    thunder = Resistant,
+    spells = Resistant
+  )
+  val creatureDamageIntakesJson: JsObject = Json.obj(
+    "bludgeoning" -> Resistant,
+    "piercing" -> Resistant,
+    "slashing" -> Resistant,
+    "acid" -> Resistant,
+    "cold" -> Resistant,
+    "fire" -> Resistant,
+    "force" -> Resistant,
+    "lightning" -> Resistant,
+    "necrotic" -> Resistant,
+    "poison" -> Resistant,
+    "psychic" -> Resistant,
+    "radiant" -> Resistant,
+    "thunder" -> Resistant,
+    "spells" -> Resistant
+  )
+  val creatureDamageIntakesNoResistance: DamageIntakes = DamageIntakes(
+    bludgeoning = NoResistance,
+    piercing = NoResistance,
+    slashing = NoResistance,
+    acid = NoResistance,
+    cold = NoResistance,
+    fire = NoResistance,
+    force = NoResistance,
+    lightning = NoResistance,
+    necrotic = NoResistance,
+    poison = NoResistance,
+    psychic = NoResistance,
+    radiant = NoResistance,
+    thunder = NoResistance,
+    spells = NoResistance
+  )
+  val creatureDamageIntakesNoResistanceJson: JsObject = Json.obj(
+    "bludgeoning" -> NoResistance,
+    "piercing" -> NoResistance,
+    "slashing" -> NoResistance,
+    "acid" -> NoResistance,
+    "cold" -> NoResistance,
+    "fire" -> NoResistance,
+    "force" -> NoResistance,
+    "lightning" -> NoResistance,
+    "necrotic" -> NoResistance,
+    "poison" -> NoResistance,
+    "psychic" -> NoResistance,
+    "radiant" -> NoResistance,
+    "thunder" -> NoResistance,
+    "spells" -> NoResistance
   )
 
-  val testCreatureConditionImmunity: String = "testCreatureConditionImmunity"
+  val creatureConditionImmunity: String = "unconscious"
 
-  val testSenseName: String = "testSenseName"
-  val testSenseValue: Int = 30
-  val testCreatureSense: Sense = Sense(testSenseName, testSenseValue)
-
-  val testCreatureSenseJson: JsObject = Json.obj(
-    "name" -> testSenseName,
-    "value" -> testSenseValue
+  val creatureSenseValue: Int = 60
+  val creatureSenses: Senses = Senses(
+    blindsight = creatureSenseValue,
+    darkvision = creatureSenseValue,
+    tremorsense = creatureSenseValue,
+    truesight = creatureSenseValue
+  )
+  val creatureSensesJson: JsObject = Json.obj(
+    "blindsight" -> creatureSenseValue,
+    "darkvision" -> creatureSenseValue,
+    "tremorsense" -> creatureSenseValue,
+    "truesight" -> creatureSenseValue
   )
 
-  val testCreatureLanguage: String = "testCreatureLanguage"
+  val creatureLanguage: String = "testCreatureLanguage"
 
-  val testTraitName: String = "testTraitName"
-  val testTraitDescription: String = "testTraitDescription"
-  val testCreatureTrait: Trait = Trait(testTraitName, testTraitDescription)
-
-  val testCreatureTraitJson: JsObject = Json.obj(
-    "name" -> testTraitName,
-    "description" -> testTraitDescription
+  val creatureTraitName: String = "testCreatureTraitName"
+  val creatureTraitDescription: String = "testCreatureTraitDescription"
+  val creatureTrait: Trait = Trait(creatureTraitName, creatureTraitDescription)
+  val creatureTraitJson: JsObject = Json.obj(
+    "name" -> creatureTraitName,
+    "description" -> creatureTraitDescription
   )
 
-  val testActionName: String = "testActionName"
-  val testActionDescription: String = "testActionDescription"
-  val testCreatureAction: Action = Action(testActionName, testActionDescription)
-
-  val testCreatureActionJson: JsObject = Json.obj(
-    "name" -> testActionName,
-    "description" -> testActionDescription
+  val creatureActionName: String = "testCreatureActionName"
+  val creatureActionDescription: String = "testCreatureActionDescription"
+  val creatureAction: Action = Action(creatureActionName, creatureActionDescription)
+  val creatureActionJson: JsObject = Json.obj(
+    "name" -> creatureActionName,
+    "description" -> creatureActionDescription
   )
 
-  val testLegendaryActionName: String = "testLegendaryActionName"
-  val testLegendaryActionDescription: String = "testLegendaryActionDescription"
-  val testCreatureLegendaryAction: LegendaryAction = LegendaryAction(testLegendaryActionName, testLegendaryActionDescription)
-
-  val testCreatureLegendaryActionJson: JsObject = Json.obj(
-    "name" -> testLegendaryActionName,
-    "description" -> testLegendaryActionDescription
+  val creatureLegendaryActionName: String = "testCreatureLegendaryActionName"
+  val creatureLegendaryActionDescription: String = "testCreatureLegendaryActionDescription"
+  val creatureLegendaryAction: LegendaryAction = LegendaryAction(creatureLegendaryActionName, creatureLegendaryActionDescription)
+  val creatureLegendaryActionJson: JsObject = Json.obj(
+    "name" -> creatureLegendaryActionName,
+    "description" -> creatureLegendaryActionDescription
   )
 
-  val testCreature: Creature = Creature(
-    id = testCreatureId,
-    name = testCreatureName,
-    description = Some(testCreatureDescription),
-    size = testCreatureSize,
-    alignment = testCreatureAlignment,
-    armourClass = testCreatureArmourClass,
-    hitPoints = testCreatureHitPoints,
-    creatureType = testCreatureType,
-    challengeRating = testCreatureChallengeRating,
-    typeTags = List(testCreatureTypeTag),
-    movementSpeeds = List(testCreatureMovementSpeed),
-    abilityScores = List(testCreatureAbilityScore),
-    skillProficiencies = List(testCreatureSkillProficiency),
-    damageIntakes = List(testCreatureDamageIntake),
-    conditionImmunities = List(testCreatureConditionImmunity),
-    senses = List(testCreatureSense),
-    languages = List(testCreatureLanguage),
-    creatureTraits = List(testCreatureTrait),
-    actions = List(testCreatureAction),
-    legendaryActions = List(testCreatureLegendaryAction)
+  val creatureDetail: CreatureDetail = CreatureDetail(
+    name = creatureName,
+    description = Some(creatureDescription),
+    size = creatureSize,
+    alignment = creatureAlignment,
+    armourClass = creatureArmourClass,
+    hitPoints = creatureHitPoints,
+    creatureType = creatureType,
+    challengeRating = creatureChallengeRating,
+    typeTags = List(creatureTypeTag),
+    movementSpeeds = creatureMovementSpeeds,
+    abilityScores = creatureAbilityScores,
+    skillProficiencies = creatureSkillProficiencies,
+    damageIntakes = creatureDamageIntakes,
+    conditionImmunities = List(creatureConditionImmunity),
+    senses = creatureSenses,
+    languages = List(creatureLanguage),
+    creatureTraits = List(creatureTrait),
+    actions = List(creatureAction),
+    legendaryActions = List(creatureLegendaryAction)
   )
 
-  val testCreatureJson: JsObject = Json.obj(
-    "id" -> testCreatureId,
-    "name" -> testCreatureName,
-    "description" -> testCreatureDescription,
-    "size" -> testCreatureSize,
-    "alignment" -> testCreatureAlignment,
-    "armourClass" -> testCreatureArmourClass,
-    "hitPoints" -> testCreatureHitPoints,
-    "creatureType" -> testCreatureType,
-    "challengeRating" -> testCreatureChallengeRating,
-    "typeTags" -> Json.arr(
-      testCreatureTypeTag
-    ),
-    "movementSpeeds" -> Json.arr(
-      Json.obj(
-        "name" -> testMovementSpeedName,
-        "value" -> testMovementSpeedValue
-      )
-    ),
-    "abilityScores" -> Json.arr(
-      Json.obj(
-        "name" -> testAbilityScoreName,
-        "value" -> testAbilityScoreValue,
-        "proficient" -> testAbilityScoreProficient
-      )
-    ),
-    "skillProficiencies" -> Json.arr(
-      Json.obj(
-        "name" -> testSkillProficiencyName,
-        "value" -> testSkillProficiencyValue
-      )
-    ),
-    "damageIntakes" -> Json.arr(
-      Json.obj(
-        "name" -> testDamageIntakeName,
-        "value" -> testDamageIntakeValue
-      )
-    ),
-    "conditionImmunities" -> Json.arr(
-      testCreatureConditionImmunity
-    ),
-    "senses" -> Json.arr(
-      Json.obj(
-        "name" -> testSenseName,
-        "value" -> testSenseValue
-      )
-    ),
-    "languages" -> Json.arr(
-      testCreatureLanguage
-    ),
-    "creatureTraits" -> Json.arr(
-      Json.obj(
-        "name" -> testTraitName,
-        "description" -> testTraitDescription
-      )
-    ),
-    "actions" -> Json.arr(
-      Json.obj(
-        "name" -> testActionName,
-        "description" -> testActionDescription
-      )
-    ),
-    "legendaryActions" -> Json.arr(
-      Json.obj(
-        "name" -> testLegendaryActionName,
-        "description" -> testLegendaryActionDescription
-      )
-    )
+  val creatureDetailJson: JsObject = Json.obj(
+    "name" -> creatureName,
+    "description" -> creatureDescription,
+    "size" -> creatureSize,
+    "alignment" -> creatureAlignment,
+    "armourClass" -> creatureArmourClass,
+    "hitPoints" -> creatureHitPoints,
+    "creatureType" -> creatureType,
+    "challengeRating" -> creatureChallengeRating,
+    "typeTags" -> Json.arr(creatureTypeTag),
+    "movementSpeeds" -> creatureMovementSpeedsJson,
+    "abilityScores" -> creatureAbilityScoresJson,
+    "skillProficiencies" -> creatureSkillProficienciesJson,
+    "damageIntakes" -> creatureDamageIntakesJson,
+    "conditionImmunities" -> Json.arr(creatureConditionImmunity),
+    "senses" -> creatureSensesJson,
+    "languages" -> Json.arr(creatureLanguage),
+    "creatureTraits" -> Json.arr(creatureTraitJson),
+    "actions" -> Json.arr(creatureActionJson),
+    "legendaryActions" -> Json.arr(creatureLegendaryActionJson)
   )
 
-  val testCreatureMinimal: Creature = Creature(
-    id = testCreatureId,
-    name = testCreatureName,
+  val creature: Creature = Creature(
+    id = creatureId,
+    detail = creatureDetail
+  )
+
+  val creatureJson: JsObject = Json.obj(
+    "id" -> creatureId,
+    "detail" -> creatureDetailJson
+  )
+
+  val creatureDetailMinimal: CreatureDetail = CreatureDetail(
+    name = creatureName,
     description = None,
-    size = testCreatureSize,
-    alignment = testCreatureAlignment,
-    armourClass = testCreatureArmourClass,
-    hitPoints = testCreatureHitPoints,
-    creatureType = testCreatureType,
-    challengeRating = testCreatureChallengeRating,
-    typeTags = List.empty[String],
-    movementSpeeds = List.empty[MovementSpeed],
-    abilityScores = List.empty[AbilityScore],
-    skillProficiencies = List.empty[SkillProficiency],
-    damageIntakes = List.empty[DamageIntake],
-    conditionImmunities = List.empty[String],
-    senses = List.empty[Sense],
-    languages = List.empty[String],
-    creatureTraits = List.empty[Trait],
-    actions = List.empty[Action],
-    legendaryActions = List.empty[LegendaryAction]
+    size = creatureSize,
+    alignment = creatureAlignment,
+    armourClass = creatureArmourClass,
+    hitPoints = creatureHitPoints,
+    creatureType = creatureType,
+    challengeRating = creatureChallengeRating,
+    typeTags = List(),
+    movementSpeeds = creatureMovementSpeeds,
+    abilityScores = creatureAbilityScoresNoProficiency,
+    skillProficiencies = creatureSkillProficienciesNone,
+    damageIntakes = creatureDamageIntakesNoResistance,
+    conditionImmunities = List(),
+    senses = creatureSenses,
+    languages = List(),
+    creatureTraits = List(),
+    actions = List(),
+    legendaryActions = List()
   )
 
-  val testCreatureMinimalJson: JsObject = Json.obj(
-    "id" -> testCreatureId,
-    "name" -> testCreatureName,
-    "size" -> testCreatureSize,
-    "alignment" -> testCreatureAlignment,
-    "armourClass" -> testCreatureArmourClass,
-    "hitPoints" -> testCreatureHitPoints,
-    "creatureType" -> testCreatureType,
-    "challengeRating" -> testCreatureChallengeRating,
+  val creatureDetailMinimalJson: JsObject = Json.obj(
+    "name" -> creatureName,
+    "size" -> creatureSize,
+    "alignment" -> creatureAlignment,
+    "armourClass" -> creatureArmourClass,
+    "hitPoints" -> creatureHitPoints,
+    "creatureType" -> creatureType,
+    "challengeRating" -> creatureChallengeRating,
     "typeTags" -> Json.arr(),
-    "movementSpeeds" -> Json.arr(),
-    "abilityScores" -> Json.arr(),
-    "skillProficiencies" -> Json.arr(),
-    "damageIntakes" -> Json.arr(),
+    "movementSpeeds" -> creatureMovementSpeedsJson,
+    "abilityScores" -> creatureAbilityScoresNoProficiencyJson,
+    "skillProficiencies" -> creatureSkillProficienciesNoneJson,
+    "damageIntakes" -> creatureDamageIntakesNoResistanceJson,
     "conditionImmunities" -> Json.arr(),
-    "senses" -> Json.arr(),
+    "senses" -> creatureSensesJson,
     "languages" -> Json.arr(),
     "creatureTraits" -> Json.arr(),
     "actions" -> Json.arr(),
     "legendaryActions" -> Json.arr()
+  )
+
+  val creatureMinimal: Creature = Creature(
+    id = creatureId,
+    detail = creatureDetailMinimal
+  )
+
+  val creatureMinimalJson: JsObject = Json.obj(
+    "id" -> creatureId,
+    "detail" -> creatureDetailMinimalJson
   )
 
 }

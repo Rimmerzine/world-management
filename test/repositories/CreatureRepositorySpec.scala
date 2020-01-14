@@ -24,27 +24,33 @@ class CreatureRepositorySpec extends RepositorySpec with TestConstants {
 
   "retrieveCreatures" must {
     "return creatures from the database" when {
-      "there is one creature in the database" in new Setup(testCreature) {
-        await(repository.retrieveCreatures(None, None)) mustBe List(testCreature)
+      "there is one creature in the database" in new Setup(creature) {
+        await(repository.retrieveCreatures(None, None)) mustBe List(creature)
       }
-      "there are multiple creatures in the database" in new Setup(testCreature, testCreatureMinimal) {
-        await(repository.retrieveCreatures(None, None)) mustBe List(testCreature, testCreatureMinimal)
+      "there are multiple creatures in the database" in new Setup(creature, creatureMinimal) {
+        await(repository.retrieveCreatures(None, None)) mustBe List(creature, creatureMinimal)
       }
-      "there is a challenge rating filter" in new Setup(testCreature.copy(challengeRating = 50), testCreatureMinimal) {
-        await(repository.retrieveCreatures(Some(50), None)) mustBe List(testCreature.copy(challengeRating = 50))
+      "there is a challenge rating filter" in new Setup(creature.copy(detail = creature.detail.copy(challengeRating = 50)), creatureMinimal) {
+        await(repository.retrieveCreatures(Some(50), None)) mustBe List(creature.copy(detail = creature.detail.copy(challengeRating = 50)))
       }
-      "there is a nameStart filter" in new Setup(testCreature.copy(name = "xSpecificName"), testCreature.copy(name = "XSpecificName")) {
-        await(repository.retrieveCreatures(None, Some('x'))) mustBe List(testCreature.copy(name = "xSpecificName"), testCreature.copy(name = "XSpecificName"))
+      "there is a nameStart filter" in new Setup(
+        creature.copy(detail = creature.detail.copy(name = "xSpecificName")),
+        creature.copy(detail = creature.detail.copy(name = "XSpecificName"))
+      ) {
+        await(repository.retrieveCreatures(None, Some('x'))) mustBe List(
+          creature.copy(detail = creature.detail.copy(name = "xSpecificName")),
+          creature.copy(detail = creature.detail.copy(name = "XSpecificName"))
+        )
       }
     }
     "return nothing from the database" when {
       "there are no creatures stored in the database" in new Setup {
         await(repository.retrieveCreatures(None, None)) mustBe List.empty[Creature]
       }
-      "there are no creatures that have the selected challenge rating" in new Setup(testCreature.copy(challengeRating = 10)) {
+      "there are no creatures that have the selected challenge rating" in new Setup(creature.copy(detail = creature.detail.copy(challengeRating = 10))) {
         await(repository.retrieveCreatures(Some(5), None)) mustBe List.empty[Creature]
       }
-      "there are no creatures that match the name filter in the database" in new Setup(testCreature.copy(name = "aSpecificName")) {
+      "there are no creatures that match the name filter in the database" in new Setup(creature.copy(detail = creature.detail.copy(name = "aSpecificName"))) {
         await(repository.retrieveCreatures(None, Some('x'))) mustBe List.empty[Creature]
       }
     }
@@ -52,19 +58,19 @@ class CreatureRepositorySpec extends RepositorySpec with TestConstants {
 
   "retrieveSingleCreature" must {
     "return a single creature" when {
-      "there is one creature in the database" in new Setup(testCreature) {
-        await(repository.retrieveSingleCreature(testCreature.id)) mustBe Some(testCreature)
+      "there is one creature in the database" in new Setup(creature) {
+        await(repository.retrieveSingleCreature(creature.id)) mustBe Some(creature)
       }
-      "there are multiple creatures in the database" in new Setup(testCreature, testCreatureMinimal) {
-        await(repository.retrieveSingleCreature(testCreature.id)) mustBe Some(testCreature)
+      "there are multiple creatures in the database" in new Setup(creature, creatureMinimal) {
+        await(repository.retrieveSingleCreature(creature.id)) mustBe Some(creature)
       }
     }
     "return nothing from the database" when {
       "there are no creatures in the database" in new Setup {
-        await(repository.retrieveSingleCreature(testCreature.id)) mustBe None
+        await(repository.retrieveSingleCreature(creature.id)) mustBe None
       }
-      "the selected creature is not in the database" in new Setup(testCreature.copy(id = "otherId")) {
-        await(repository.retrieveSingleCreature(testCreature.id)) mustBe None
+      "the selected creature is not in the database" in new Setup(creature.copy(id = "otherId")) {
+        await(repository.retrieveSingleCreature(creature.id)) mustBe None
       }
     }
   }
@@ -72,42 +78,42 @@ class CreatureRepositorySpec extends RepositorySpec with TestConstants {
   "insertCreature" must {
     "insert a creature into the database and return the inserted crature" when {
       "there are no creatures in the database" in new Setup {
-        await(repository.insertCreature(testCreature)) mustBe testCreature
-        findAll[Creature] mustBe List(testCreature)
+        await(repository.insertCreature(creature)) mustBe creature
+        findAll[Creature] mustBe List(creature)
       }
-      "the database already has a creature" in new Setup(testCreature) {
-        await(repository.insertCreature(testCreature)) mustBe testCreature
-        findAll[Creature] mustBe List(testCreature, testCreature)
+      "the database already has a creature" in new Setup(creature) {
+        await(repository.insertCreature(creature)) mustBe creature
+        findAll[Creature] mustBe List(creature, creature)
       }
     }
   }
 
   "updateCreature" must {
-    "update the creature on the database" in new Setup(testCreature) {
-      val updatedCreature: Creature = testCreature.copy(name = "testUpdatedName")
+    "update the creature on the database" in new Setup(creature) {
+      val updatedCreature: Creature = creature.copy(detail = creature.detail.copy(name = "testUpdatedName"))
       await(repository.updateCreature(updatedCreature)) mustBe Some(updatedCreature)
     }
     "return none and not update any creature" when {
       "there are no creatures" in new Setup {
-        await(repository.updateCreature(testCreature)) mustBe None
+        await(repository.updateCreature(creature)) mustBe None
       }
-      "the creature to update is not in the database" in new Setup(testCreature) {
-        await(repository.updateCreature(testCreature.copy(id = "otherId"))) mustBe None
+      "the creature to update is not in the database" in new Setup(creature) {
+        await(repository.updateCreature(creature.copy(id = "otherId"))) mustBe None
       }
     }
   }
 
   "removeCreature" must {
     "remove the creature from the database" when {
-      "it exists in the database" in new Setup(testCreature) {
-        await(repository.removeCreature(testCreature.id)) mustBe Some(testCreature)
+      "it exists in the database" in new Setup(creature) {
+        await(repository.removeCreature(creature.id)) mustBe Some(creature)
       }
     }
     "return none" when {
       "there are no records in the database" in new Setup {
-        await(repository.removeCreature(testCreature.id)) mustBe None
+        await(repository.removeCreature(creature.id)) mustBe None
       }
-      "the creature doesn't exist in the database" in new Setup(testCreature) {
+      "the creature doesn't exist in the database" in new Setup(creature) {
         await(repository.removeCreature("otherId")) mustBe None
       }
     }

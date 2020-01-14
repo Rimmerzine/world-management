@@ -15,9 +15,9 @@ trait CreatureController extends BaseController {
   implicit val ec: ExecutionContext = controllerComponents.executionContext
   val creatureService: CreatureService
 
-  def getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char]) : Action[AnyContent] = Action.async { implicit request =>
+  def getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char]): Action[AnyContent] = Action.async { implicit request =>
     creatureService.retrieveCreatures(challengeRating, nameStart).map {
-      case creatures@_ :: _ => Ok(Json.toJson(creatures))
+      case creatures if creatures.nonEmpty => Ok(Json.toJson(creatures))
       case Nil => NoContent
     }
   }

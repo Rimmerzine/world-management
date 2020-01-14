@@ -22,7 +22,7 @@ class CreatureServiceSpec extends UnitSpec with TestConstants {
 
   "retrieveCreatures" must {
     "return back the creatures from the repository" in new Setup {
-      val creatureList: List[Creature] = List(testCreature, testCreatureMinimal)
+      val creatureList: List[Creature] = List(creature, creatureMinimal)
       when(mockCreatureRepository.retrieveCreatures(matches(None), matches(None))(any())) thenReturn Future.successful(creatureList)
       await(service.retrieveCreatures(None, None)) mustBe creatureList
     }
@@ -30,29 +30,29 @@ class CreatureServiceSpec extends UnitSpec with TestConstants {
 
   "retrieveSingleCreature" must {
     "return back the creature from the repository" in new Setup {
-      when(mockCreatureRepository.retrieveSingleCreature(matches(testCreature.id))(any())) thenReturn Future.successful(Some(testCreature))
-      await(service.retrieveSingleCreature(testCreature.id)) mustBe Some(testCreature)
+      when(mockCreatureRepository.retrieveSingleCreature(matches(creature.id))(any())) thenReturn Future.successful(Some(creature))
+      await(service.retrieveSingleCreature(creature.id)) mustBe Some(creature)
     }
   }
 
   "createCreature" must {
     "return what is returned from the repository" in new Setup {
-      when(mockCreatureRepository.insertCreature(matches(testCreature))(any())) thenReturn Future.successful(testCreature)
-      await(service.createCreature(testCreature)) mustBe testCreature
+      when(mockCreatureRepository.insertCreature(matches(creature))(any())) thenReturn Future.successful(creature)
+      await(service.createCreature(creature)) mustBe creature
     }
   }
 
   "updateCreature" must {
     "return what is returned from the repository" in new Setup {
-      when(mockCreatureRepository.updateCreature(matches(testCreature))(any())) thenReturn Future.successful(Some(testCreature))
-      await(service.updateCreature(testCreature)) mustBe Some(testCreature)
+      when(mockCreatureRepository.updateCreature(matches(creature))(any())) thenReturn Future.successful(Some(creature))
+      await(service.updateCreature(creature)) mustBe Some(creature)
     }
   }
 
   "removeCreature" must {
     "return what is returned from the repository" in new Setup {
-      when(mockCreatureRepository.removeCreature(matches(testCreature.id))(any())) thenReturn Future.successful(Some(testCreature))
-      await(service.removeCreature(testCreature.id)) mustBe Some(testCreature)
+      when(mockCreatureRepository.removeCreature(matches(creature.id))(any())) thenReturn Future.successful(Some(creature))
+      await(service.removeCreature(creature.id)) mustBe Some(creature)
     }
   }
 
