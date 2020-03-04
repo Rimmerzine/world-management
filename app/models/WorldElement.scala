@@ -2,40 +2,34 @@ package models
 
 import play.api.libs.json._
 
-case class Campaign(
-                     elementType: String,
-                     id: String,
-                     name: String,
-                     description: Option[String],
-                     content: List[WorldElement]
-                   ) extends WorldElement
+case class Campaign(elementType: String,
+                    id: String,
+                    name: String,
+                    description: Option[String],
+                    content: List[WorldElement]) extends WorldElement
 
 object Campaign {
   val reads: Reads[Campaign] = Json.reads[Campaign]
   val writes: OWrites[Campaign] = Json.writes[Campaign]
 }
 
-case class Plane(
-                  elementType: String,
-                  id: String,
-                  name: String,
-                  description: Option[String],
-                  content: List[WorldElement],
-                  alignment: String
-                ) extends WorldElement
+case class Plane(elementType: String,
+                 id: String,
+                 name: String,
+                 description: Option[String],
+                 content: List[WorldElement],
+                 alignment: String) extends WorldElement
 
 object Plane {
   val reads: Reads[Plane] = Json.reads[Plane]
   val writes: OWrites[Plane] = Json.writes[Plane]
 }
 
-case class Land(
-                 elementType: String,
-                 id: String,
-                 name: String,
-                 description: Option[String],
-                 content: List[WorldElement]
-               ) extends WorldElement
+case class Land(elementType: String,
+                id: String,
+                name: String,
+                description: Option[String],
+                content: List[WorldElement]) extends WorldElement
 
 object Land {
   val reads: Reads[Land] = Json.reads[Land]

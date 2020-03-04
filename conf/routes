@@ -6,7 +6,7 @@ PUT     /world-management/campaigns/update              controllers.CampaignCont
 DELETE  /world-management/campaigns/remove/:id          controllers.CampaignController.remove(id)
 
 # Creature Routes
-GET     /world-management/creatures/retrieve            controllers.CreatureController.getAllCreatures(challengeRating: Option[Double], nameStart: Option[Char])
+GET     /world-management/creatures/retrieve            controllers.CreatureController.getAllCreatures()
 GET     /world-management/creatures/retrieve/:id        controllers.CreatureController.getSingleCreature(id)
 POST    /world-management/creatures/create              controllers.CreatureController.create()
 PUT     /world-management/creatures/update              controllers.CreatureController.update()

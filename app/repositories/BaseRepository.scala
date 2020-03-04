@@ -14,9 +14,10 @@ import scala.concurrent.{ExecutionContext, Future}
 trait BaseRepository {
 
   val appConfig: AppConfig
-  val reactiveApi: ReactiveMongoApi
-  lazy val databaseName: String = appConfig.databaseName
   val collectionName: String
+  val reactiveApi: ReactiveMongoApi
+
+  lazy val databaseName: String = appConfig.databaseName
 
   protected def writeNullable[A](path: JsPath)(implicit writes: Writes[A]): OWrites[Option[A]] = path.writeNullable[A]
 
@@ -24,12 +25,12 @@ trait BaseRepository {
     reactiveApi.connection.database(databaseName).map(_.collection[JSONCollection](collectionName))
   }
 
-  protected def findOne[A](selector: JsObject, projection: Option[JsObject] = Some(Json.obj("_id" -> 0)))
+  protected def findOne[A](selector: JsObject = Json.obj(), projection: Option[JsObject] = Some(Json.obj("_id" -> 0)))
                           (implicit reads: Reader[A], ec: ExecutionContext): Future[Option[A]] = {
     collection.flatMap(_.find(selector, projection).one[A])
   }
 
-  protected def find[A](selector: JsObject, projection: Option[JsObject] = Some(Json.obj("_id" -> 0)))
+  protected def find[A](selector: JsObject = Json.obj(), projection: Option[JsObject] = Some(Json.obj("_id" -> 0)))
                        (implicit reads: Reader[A], ec: ExecutionContext): Future[List[A]] = {
     collection.flatMap(_.find(selector, projection).cursor[A](ReadPreference.primaryPreferred).collect[List](-1, Cursor.FailOnError[List[A]]()))
   }

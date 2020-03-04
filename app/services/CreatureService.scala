@@ -12,18 +12,24 @@ trait CreatureService {
 
   protected val creatureRepository: CreatureRepository
 
-  def retrieveCreatures(challengeRating: Option[Double], nameStart: Option[Char])(implicit ec: ExecutionContext): Future[List[Creature]] = {
-    creatureRepository.retrieveCreatures(challengeRating, nameStart)
+  def retrieveCreatures(implicit ec: ExecutionContext): Future[List[Creature]] = {
+    creatureRepository.retrieveCreatures
   }
 
   def retrieveSingleCreature(creatureId: String)(implicit ec: ExecutionContext): Future[Option[Creature]] = {
     creatureRepository.retrieveSingleCreature(creatureId)
   }
 
-  def createCreature(creature: Creature)(implicit ec: ExecutionContext): Future[Creature] = creatureRepository.insertCreature(creature)
+  def createCreature(creature: Creature)(implicit ec: ExecutionContext): Future[Creature] = {
+    creatureRepository.insertCreature(creature)
+  }
 
-  def updateCreature(creature: Creature)(implicit ec: ExecutionContext): Future[Option[Creature]] = creatureRepository.updateCreature(creature)
+  def updateCreature(creature: Creature)(implicit ec: ExecutionContext): Future[Option[Creature]] = {
+    creatureRepository.updateCreature(creature)
+  }
 
-  def removeCreature(creatureId: String)(implicit ec: ExecutionContext): Future[Option[Creature]] = creatureRepository.removeCreature(creatureId)
+  def removeCreature(creatureId: String)(implicit ec: ExecutionContext): Future[Option[Creature]] = {
+    creatureRepository.removeCreature(creatureId)
+  }
 
 }

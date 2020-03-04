@@ -32,9 +32,9 @@ class CreatureControllerSpec extends UnitSpec with TestConstants {
     s"return $OK" when {
       "creatures are returned from the service" in new Setup {
         val creatureList: List[Creature] = List(creature, creatureMinimal)
-        when(mockCreatureService.retrieveCreatures(matches(None), matches(None))(any())) thenReturn Future.successful(creatureList)
+        when(mockCreatureService.retrieveCreatures(any())) thenReturn Future.successful(creatureList)
 
-        val result: Future[Result] = controller.getAllCreatures(None, None)(request)
+        val result: Future[Result] = controller.getAllCreatures(request)
         status(result) mustBe OK
         contentType(result) mustBe Some("application/json")
         contentAsJson(result) mustBe Json.toJson(creatureList)
@@ -42,9 +42,9 @@ class CreatureControllerSpec extends UnitSpec with TestConstants {
     }
     s"return $NO_CONTENT" when {
       "no creatures are returned from the service" in new Setup {
-        when(mockCreatureService.retrieveCreatures(matches(None), matches(None))(any())) thenReturn Future.successful(List.empty[Creature])
+        when(mockCreatureService.retrieveCreatures(any())) thenReturn Future.successful(List.empty[Creature])
 
-        val result: Future[Result] = controller.getAllCreatures(None, None)(request)
+        val result: Future[Result] = controller.getAllCreatures(request)
         status(result) mustBe NO_CONTENT
       }
     }

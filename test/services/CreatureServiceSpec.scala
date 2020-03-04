@@ -23,8 +23,8 @@ class CreatureServiceSpec extends UnitSpec with TestConstants {
   "retrieveCreatures" must {
     "return back the creatures from the repository" in new Setup {
       val creatureList: List[Creature] = List(creature, creatureMinimal)
-      when(mockCreatureRepository.retrieveCreatures(matches(None), matches(None))(any())) thenReturn Future.successful(creatureList)
-      await(service.retrieveCreatures(None, None)) mustBe creatureList
+      when(mockCreatureRepository.retrieveCreatures(any())) thenReturn Future.successful(creatureList)
+      await(service.retrieveCreatures) mustBe creatureList
     }
   }
 

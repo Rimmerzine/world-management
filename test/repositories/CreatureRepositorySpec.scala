@@ -25,33 +25,15 @@ class CreatureRepositorySpec extends RepositorySpec with TestConstants {
   "retrieveCreatures" must {
     "return creatures from the database" when {
       "there is one creature in the database" in new Setup(creature) {
-        await(repository.retrieveCreatures(None, None)) mustBe List(creature)
+        await(repository.retrieveCreatures) mustBe List(creature)
       }
       "there are multiple creatures in the database" in new Setup(creature, creatureMinimal) {
-        await(repository.retrieveCreatures(None, None)) mustBe List(creature, creatureMinimal)
-      }
-      "there is a challenge rating filter" in new Setup(creature.copy(detail = creature.detail.copy(challengeRating = 50)), creatureMinimal) {
-        await(repository.retrieveCreatures(Some(50), None)) mustBe List(creature.copy(detail = creature.detail.copy(challengeRating = 50)))
-      }
-      "there is a nameStart filter" in new Setup(
-        creature.copy(detail = creature.detail.copy(name = "xSpecificName")),
-        creature.copy(detail = creature.detail.copy(name = "XSpecificName"))
-      ) {
-        await(repository.retrieveCreatures(None, Some('x'))) mustBe List(
-          creature.copy(detail = creature.detail.copy(name = "xSpecificName")),
-          creature.copy(detail = creature.detail.copy(name = "XSpecificName"))
-        )
+        await(repository.retrieveCreatures) mustBe List(creature, creatureMinimal)
       }
     }
     "return nothing from the database" when {
       "there are no creatures stored in the database" in new Setup {
-        await(repository.retrieveCreatures(None, None)) mustBe List.empty[Creature]
-      }
-      "there are no creatures that have the selected challenge rating" in new Setup(creature.copy(detail = creature.detail.copy(challengeRating = 10))) {
-        await(repository.retrieveCreatures(Some(5), None)) mustBe List.empty[Creature]
-      }
-      "there are no creatures that match the name filter in the database" in new Setup(creature.copy(detail = creature.detail.copy(name = "aSpecificName"))) {
-        await(repository.retrieveCreatures(None, Some('x'))) mustBe List.empty[Creature]
+        await(repository.retrieveCreatures) mustBe List.empty[Creature]
       }
     }
   }

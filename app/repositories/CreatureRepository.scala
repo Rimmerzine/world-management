@@ -14,10 +14,8 @@ class CreatureRepositoryImpl @Inject()(val reactiveApi: ReactiveMongoApi, val ap
 
 trait CreatureRepository extends BaseRepository {
 
-  def retrieveCreatures(challengeRating: Option[Double], nameStart: Option[Char])(implicit ec: ExecutionContext): Future[List[Creature]] = {
-    val crFilter: JsObject = Json.toJsObject(challengeRating)(writeNullable(JsPath \ "detail.challengeRating"))
-    val nameFilter: JsObject = Json.toJsObject(nameStart.map(s"(?i)" + _ + "(?i)(.*)"))(writeNullable(JsPath \ "detail.name" \ "$regex"))
-    find[Creature](crFilter ++ nameFilter)
+  def retrieveCreatures(implicit ec: ExecutionContext): Future[List[Creature]] = {
+    find[Creature]()
   }
 
   def retrieveSingleCreature(creatureId: String)(implicit ec: ExecutionContext): Future[Option[Creature]] = {
